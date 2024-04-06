@@ -3,7 +3,7 @@ const serverMode:string = "live";
 
 const liveThemeConfig = {
     locale: 'en', // en, da, de, el, es, fr, hu, it, ja, pl, pt, ru, sv, tr, zh
-    theme: 'dark', // light, dark, system
+    theme: 'light', // light, dark, system
     menu: 'collapsible-vertical', // vertical, collapsible-vertical, horizontal
     layout: 'full', // full, boxed-layout
     rtlClass: 'ltr', // rtl, ltr
