@@ -109,18 +109,26 @@ const Sidebar = () => {
                                 <NavLink to="/report" className="group">
                                     <div className="flex items-center">
                                         <IconBarChart className="group-hover:!text-primary shrink-0" />
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-white dark:group-hover:text-white-dark">{t('Transaction')}</span>
+                                    </div>
+                                </NavLink>
+                            </li>}
+                            {userRole != 'user' && <li className="nav-item">
+                                <NavLink to="/report" className="group">
+                                    <div className="flex items-center">
+                                        <IconBarChart className="group-hover:!text-primary shrink-0" />
                                         <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-white dark:group-hover:text-white-dark">{t('Report')}</span>
                                     </div>
                                 </NavLink>
                             </li>}
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <NavLink to="/trends" className="group">
                                     <div className="flex items-center">
                                         <IconGraphNewUp className="group-hover:!text-primary shrink-0" />
                                         <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-white dark:group-hover:text-white-dark">{t('Trends')}</span>
                                     </div>
                                 </NavLink>
-                            </li>
+                            </li> */}
 
                             <h2 className="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                                 <span>{t('Profile Settings')}</span>

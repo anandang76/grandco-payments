@@ -180,42 +180,13 @@ class DataController extends Controller
 
             $deviceID = $request->deviceID;
 
-            $sensorIDData  = DB::connection('mysqlConfig')
-                ->table('sensors')
-                // ->select('id')
+            $transaction  = DB::connection('mysqlConfig')
+                ->table('transaction')
+                ->select('*' )
                 ->where('deviceID', '=', $deviceID)
                 ->get();
-
-            $response['alerts']  = DB::connection('mysqlTms')
-                ->table('alertCrons')
-                ->select('sensorID', DB::raw('count(*) as alarmCount') )
-                ->where('deviceID', '=', $deviceID)
-                ->where('status', '=', '0')
-                ->groupBy('sensorID')
-                ->get();
-
-            $valueInfo  = DB::connection('mysqlTms')
-                ->table('dynamicValues')
-                ->select( 'data' )
-                ->where('type', '=', 'SENSOR_DYNAMIC_DATA')
-                ->get();
-
-            $valueInfoArr = json_decode($valueInfo, true);
-            $sensorInfoArray = json_decode($valueInfoArr[0]['data'], true);
-
-            $sensorIDDataUpdate=[];
-            foreach($sensorIDData as $val) {
-                $sensorID = $val->id;
-                $sensorIDDataUpdate[$sensorID] = array();
-                $sensorIDDataUpdate[$sensorID]['numSamples'] = $sensorInfoArray[$sensorID]['numSamples'];
-                $sensorIDDataUpdate[$sensorID]['lastSensorValue'] = $sensorInfoArray[$sensorID]['lastSensorValue'];
-                $sensorIDDataUpdate[$sensorID]['minSensorValue'] = $sensorInfoArray[$sensorID]['minSensorValue'];
-                $sensorIDDataUpdate[$sensorID]['avgSensorValue'] = $sensorInfoArray[$sensorID]['avgSensorValue'];
-                $sensorIDDataUpdate[$sensorID]['maxSensorValue'] = $sensorInfoArray[$sensorID]['maxSensorValue'];
-                $sensorIDDataUpdate[$sensorID]['status'] = $val->sensorStatus;
-            }
-
-            $response['data'] = $sensorIDDataUpdate;
+       
+            $response['data'] = $transaction;
 
             if($this->debugFlag){ $response['query'] = DB::connection('mysqlTms')->getQueryLog() ; $response['query'][] = DB::connection('mysqlConfig')->getQueryLog() ; $funcEndTime = microtime(true); $functionTimer = ['StartTime' => $funcStartTime, 'EndTime'=>$funcEndTime, 'Exec Time' => ($funcEndTime - $funcStartTime)]; $response['time'] = $functionTimer; };
 

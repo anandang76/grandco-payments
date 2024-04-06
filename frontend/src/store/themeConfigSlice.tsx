@@ -144,7 +144,7 @@ const themeConfigSlice = createSlice({
         },
 
         setPageTitle(state, { payload }) {
-            document.title = `AQMS | ${payload}`;
+            document.title = `Dabadu | ${payload}`;
         },
 
         setNotifications(state, { payload }) {

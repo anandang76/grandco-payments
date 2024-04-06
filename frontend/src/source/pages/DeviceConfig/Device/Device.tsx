@@ -144,7 +144,7 @@ const Device = () => {
 
     const HandleDevice = (device: any) => {
         let { locationID, branchID, facilityID, buildingID, floorID, zoneID, id } = device;
-        navigate(`/device-config/${locationID}/${branchID}/${facilityID}/${buildingID}/${floorID}/${zoneID}/${id}`);
+        // navigate(`/device-config/${locationID}/${branchID}/${facilityID}/${buildingID}/${floorID}/${zoneID}/${id}`);
     }
 
     const GetData = async () => {

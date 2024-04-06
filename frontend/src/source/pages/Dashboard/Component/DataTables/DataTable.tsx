@@ -149,7 +149,7 @@ const DataTables = ({records, columnTitle, ChangeData}: any) => {
         <div className="py-2">
             <div className="datatables">
                 <DataTable
-                    className={`${isRtl ? 'whitespace-nowrap table-hover' : 'whitespace-nowrap table-hover'}`}
+                    className={`${isRtl ? 'whitespace-nowrap table-hover' : 'whitespace-nowrap table-hover'} !text-center`}
                     records={recordsData}
                     columns={[
                         {
@@ -176,34 +176,33 @@ const DataTables = ({records, columnTitle, ChangeData}: any) => {
                             }),
                             sortable: true
                         },
-                        {
-                            accessor: 'aqiValue',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'AQI Value',
-                            sortable: true,
-                            render: (current: any) => {
-                                let AQI = current.aqiValue ? Number(current.aqiValue).toFixed(0) : "NA";
-                                return AQI != 'NA' && Number(AQI) != 0 && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default dark:text-white status-btn border border-gray-400 text-sm  font-bold`}>
-                                    {/* {Number(AQI) == 0 ? "NA" : AQI} */}
-                                    {AQI}
-                                </button>
-                            }
-                        },
-                        {
-                            accessor: 'aqicategory',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'AQI Category',
-                            render: (current: any) => {
-                                let value = current.aqicategory ? current.aqicategory : "NA";
-                                let bgColor = GetAQIColor(Number(current.aqiValue) > 0 ? current.aqiValue : "NA");
-                                return value != "NA" && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default status-btn border dark:text-white text-white text-sm  font-bold`} style={{ backgroundColor: bgColor, border: bgColor }}>
-                                    {value}
-                                </button>
-                            },
-                            sortable: true
-                        }
+                        // {
+                        //     accessor: 'aqiValue',
+                        //     titleClassName: 'title-center dark-datatable-title-color',
+                        //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                        //     title: 'AQI Value',
+                        //     sortable: true,
+                        //     render: (current: any) => {
+                        //         let AQI = current.aqiValue ? Number(current.aqiValue).toFixed(0) : "NA";
+                        //         return AQI != 'NA' && Number(AQI) != 0 && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default dark:text-white status-btn border border-gray-400 text-sm  font-bold`}>
+                        //             {AQI}
+                        //         </button>
+                        //     }
+                        // },
+                        // {
+                        //     accessor: 'aqicategory',
+                        //     titleClassName: 'title-center dark-datatable-title-color',
+                        //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                        //     title: 'AQI Category',
+                        //     render: (current: any) => {
+                        //         let value = current.aqicategory ? current.aqicategory : "NA";
+                        //         let bgColor = GetAQIColor(Number(current.aqiValue) > 0 ? current.aqiValue : "NA");
+                        //         return value != "NA" && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default status-btn border dark:text-white text-white text-sm  font-bold`} style={{ backgroundColor: bgColor, border: bgColor }}>
+                        //             {value}
+                        //         </button>
+                        //     },
+                        //     sortable: true
+                        // }
                     ]}
                     totalRecords={initialRecords.length}
                     recordsPerPage={pageSize}

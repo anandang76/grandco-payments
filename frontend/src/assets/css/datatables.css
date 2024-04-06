@@ -58,7 +58,7 @@ table tr .mantine-Checkbox-root {
 }
 
 .datatables thead tr th .mantine-Group-root.mantine-1d34tqu {
-    @apply justify-start;
+    @apply justify-center;
 }
 .datatables thead tr th .mantine-Group-root.mantine-1d34tqu .mantine-oqxib5 {
     @apply flex-grow-0;

@@ -118,9 +118,9 @@ const DeviceComponent = ({ params }: any) => {
     return (
         <>
             <div className="py-5">
-                <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-6">
+
+                {/* <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-6">
                     <div className="panel h-full p-4 pb-0 rounded-xl">
-                        {/* <div className="flex items-center justify-center border-b border-white-light dark:border-[#1b2e4b] pb-2"> */}
                         <div className="flex items-center justify-center border-b border-white-light dark:text-white dark:border-[#1b2e4b] pb-2">
                             <div className="font-semibold text-lg">
                                 <h6>Hooter</h6>
@@ -135,7 +135,6 @@ const DeviceComponent = ({ params }: any) => {
                     </div>
 
                     <div className="panel h-full p-4 pb-0 rounded-xl">
-                        {/* <div className="flex items-center justify-center border-b border-white-light dark:border-[#1b2e4b] pb-2"> */}
                         <div className="flex items-center justify-center border-b border-white-light dark:text-white dark:border-[#1b2e4b] pb-2">
                             <div className="font-semibold text-lg">
                                 <h6>Disconnected Devices</h6>
@@ -152,7 +151,6 @@ const DeviceComponent = ({ params }: any) => {
                     </div>
 
                     <div className="panel h-full p-4 pb-0 rounded-xl">
-                        {/* <div className="flex items-center justify-center border-b border-white-light dark:border-[#1b2e4b] pb-2"> */}
                         <div className="flex items-center justify-center border-b border-white-light dark:text-white dark:border-[#1b2e4b] pb-2">
                             <div className="font-semibold text-lg">
                                 <h6>Total Devices</h6>
@@ -169,7 +167,6 @@ const DeviceComponent = ({ params }: any) => {
                     </div>
 
                     <div className="panel h-full p-4 pb-0 rounded-xl">
-                        {/* <div className="flex items-center justify-center border-b border-white-light dark:border-[#1b2e4b] pb-2"> */}
                         <div className="flex items-center justify-center border-b border-white-light dark:text-white dark:border-[#1b2e4b] pb-2">
                             <div className="font-semibold text-lg">
                                 <h6>Active Alerts</h6>
@@ -190,7 +187,6 @@ const DeviceComponent = ({ params }: any) => {
                     </div>
 
                     <div className="panel h-full p-4 pb-0 rounded-xl">
-                        {/* <div className="flex items-center justify-center border-b border-white-light dark:border-[#1b2e4b] pb-2"> */}
                         <div className="flex items-center justify-center border-b border-white-light dark:text-white dark:border-[#1b2e4b] pb-2">
                             <div className="font-semibold text-lg">
                                 <h6>AQI</h6>
@@ -330,8 +326,10 @@ const DeviceComponent = ({ params }: any) => {
 
 
                     </div>
-                </div>
-                <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-6 mt-8">
+                </div> */}
+
+
+                <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-6 mt-1">
                     {Devices?.map((device, index) => {
                         let currentDeviceAlerts = CurrentAlerts.filter(alert => alert.deviceID == device.id);
                         let currentDevice = AllDevices?.filter(devices => devices.deviceID == device.id)[0];
@@ -359,10 +357,10 @@ const DeviceComponent = ({ params }: any) => {
                         return currentDevice ? <div key={index} className={`panel h-full p-0 rounded-xl`} onClick={() => navigate(`/device/${device.id}`)}>
                             <div className={`flex justify-between border-b rounded-t-xl border-white-light dark:border-[#1b2e4b] p-4 text-white ${DeviceConnectionStatus ? 'bg-gray-400' : bgColor}`}>
                                 <div className={`text-lg ${DeviceConnectionStatus ? 'text-black' : ''} dark:text-white font-bold`}>{currentDevice?.deviceName}</div>
-                                <div className={`text-lg ${DeviceConnectionStatus ? 'text-black' : ''} dark:text-white font-bold`}>{currentDevice?.deviceTag}</div>
+                                {/* <div className={`text-lg ${DeviceConnectionStatus ? 'text-black' : ''} dark:text-white font-bold`}>{currentDevice?.deviceTag}</div> */}
                             </div>
                             <div className="w-full flex flex-col gap-8 p-4">
-                                {DeviceConnectionStatus ?
+                                {/* {DeviceConnectionStatus ?
                                     <div className="m-auto">
                                         <IconCustomWifiDisconnected className="w-16 h-16" />
                                     </div>
@@ -376,7 +374,7 @@ const DeviceComponent = ({ params }: any) => {
                                             </div>
                                         </button>
                                     </div>
-                                }
+                                } */}
                                 <div>
                                     <span className='dark:text-white text-base'>Device mode: </span>
                                     <span className={`${DeviceConnectionStatus ? 'text-danger border-danger' : 'text-success border-success'} text-base border px-3 rounded-3xl`}>{DeviceConnectionStatus ? "Disconnected": "Connected"}</span>

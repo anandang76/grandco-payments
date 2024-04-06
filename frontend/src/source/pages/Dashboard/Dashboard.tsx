@@ -43,7 +43,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <Alerts />
+            {/* <Alerts /> */}
         </>
     );
 };
