@@ -1,5 +1,5 @@
-// const serverMode:string = "live";
-const serverMode:string = "local";
+const serverMode:string = "live";
+// const serverMode:string = "local";
 
 const liveThemeConfig = {
     locale: 'en', // en, da, de, el, es, fr, hu, it, ja, pl, pt, ru, sv, tr, zh
