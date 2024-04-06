@@ -1,0 +1,229 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "GrandCo API",
+    "description": "GrandCo Payment Gateway"
+  },
+
+  "paths": {
+    "/openPaymentGateway": {
+      "get": {
+        "tags": ["Open Payment Gateway"],
+        "summary": "Get paymentGatewayId",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "paymentGatewayCommand": {
+                      "type": "object",
+                      "properties": {
+                        "openPaymentGatewayData": {
+                          "type": "object",
+                          "properties": {
+                            "result": {
+                              "type": "string",
+                              "example": "SUCCESS"
+                            },
+                            "paymentGatewayId": {
+                              "type": "string",
+                              "example": "7a4f0f46-dd00-4ebd-9678-edd63b6a0f43"
+                            }
+                          }
+                        },
+                        "eventQueue": {
+                          "type": "array",
+                          "example": "[]"
+                        },
+                        "completed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "warnings": {
+                          "type": "array",
+                          "example": "[]"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/startPaymentTransaction": {
+      "post": {
+        "tags": ["Start Payment Transaction"],
+        "summary": "Get chanId",
+        "parameters": [
+          {
+            "name": "startPaymentTransaction",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["amount", "paymentGatewayId"],
+              "properties": {
+                "amount": {
+                  "type": "integer",
+                  "example": 100
+                },
+                "paymentGatewayId": {
+                  "type": "string",
+                  "example": "7a4f0f46-dd00-4ebd-9678-edd63b6a0f43"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "paymentGatewayCommand": {
+                      "type": "object",
+                      "properties": {
+                        "chanId": {
+                          "type": "string",
+                          "example": "f7be44b7-ac74-46cf-bd44-77b4056cec6c"
+                        },
+                        "eventQueue": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "timeStamp": {
+                                "type": "string",
+                                "example": "1457115273607"
+                              },
+                              "statusDetails": {
+                                "type": "string",
+                                "example": "STARTING"
+                              }
+                            }
+                          }
+                        },
+                        "completed": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "warnings": {
+                          "type": "array",
+                          "example": "[]"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getPaymentTransactionStatus": {
+      "post": {
+        "tags": ["Get Payment Transaction Status"],
+        "summary": "Get the status of the transaction.",
+        "parameters": [
+          {
+            "name": "getPaymentTransactionStatus",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["chanId", "paymentGatewayId"],
+              "properties": {
+                "chanId": {
+                  "type": "string",
+                  "example": "f7be44b7-ac74-46cf-bd44-77b4056cec6c"
+                },
+                "paymentGatewayId": {
+                  "type": "string",
+                  "example": "7a4f0f46-dd00-4ebd-9678-edd63b6a0f43"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "paymentGatewayCommand": {
+                      "type": "object",
+                      "properties": {
+                        "chanId": {
+                          "type": "string",
+                          "example": "f7be44b7-ac74-46cf-bd44-77b4056cec6c"
+                        },
+                        "paymentTransactionData": {
+                          "type": "object",
+                          "example": "{}"
+                        },
+                        "eventQueue": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "timeStamp": {
+                                "type": "string",
+                                "example": "1700667233204"
+                              },
+                              "statusDetails": {
+                                "type": "string",
+                                "example": "STARTING"
+                              }
+                            }
+                          }
+                        },
+                        "completed": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "warnings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          },
+                          "example": []
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
