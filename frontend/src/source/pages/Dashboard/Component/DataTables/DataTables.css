@@ -1,0 +1,8 @@
+/* .datatables > div {
+    min-height: 280px;
+} */
+
+.dark .datatables .dark-datatable-title-color{
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}

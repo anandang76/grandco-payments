@@ -1,0 +1,7 @@
+/* .datatables > div {
+    min-height: 285px;
+} */
+
+.datatables > div > div:nth-child(2){
+    padding-top: 0.5rem !important;
+}

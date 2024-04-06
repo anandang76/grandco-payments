@@ -1,0 +1,3 @@
+
+ALTER TABLE `users` ADD `twofa_status` INT(11) NOT NULL DEFAULT '0' AFTER `password`;
+ALTER TABLE `users` ADD `phone` VARCHAR(64) NULL AFTER `password`;

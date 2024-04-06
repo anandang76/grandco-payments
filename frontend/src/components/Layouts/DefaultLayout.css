@@ -1,0 +1,9 @@
+/* :is([dir="ltr"] .main-container .main-content){
+    margin-left: 282px;
+}
+:is([dir="ltr"] .vertical.toggle-sidebar .sidebar){
+    left: -282px;
+} */
+:is([dir="ltr"] .vertical .sidebar) {
+    left: 0px;
+}
