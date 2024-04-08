@@ -108,6 +108,7 @@ function PaymentForm() {
           isManualEntry: formData.cardEntry,
           cardType: formData.cardType,
           paymentId,
+          cardReaderInfo : localStorage.getItem('cardReaderInfo'),
         })
         .then((response) => {
           console.log(

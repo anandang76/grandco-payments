@@ -15,6 +15,8 @@ function delay(ms) {
 }
 
 const BASE_URL = "https://localhost:9790/rest/command";
+const SERVER_URL = "https://dabadu.grandcopayments.com/backend/api";
+
 
 exports.openPaymentGateway = async (req, res, next) => {
   logger.info(`Open Payment Gateway Request Initated`);
@@ -69,31 +71,33 @@ exports.startPaymentTransaction = async (req, res, next) => {
   const amount = parseInt((req.body.amount * 100).toFixed());
   const cardType = req.body.cardType;
   const isManualEntry = req.body.isManualEntry;
+  const cardReaderInfo = req.body.cardReaderInfo;
+  const payementParameters = {
+    paymentGatewayId,
+    transactionType: "SALE",
+    baseTransactionAmount: {
+      value: amount,
+      currencyCode: "CAD",
+    },
+    tenderType: "CARD",
+    cardType: cardType || null,
+    cardEntryTypes: isManualEntry ? ["MANUALLY_ENTERED"] : undefined,
+    isTaxInclusive: false,
+    partialApprovalAllowed: true,
+    taxAmounts: [
+      {
+        value: 0,
+        currencyCode: "CAD",
+      },
+    ],
+    discountAmounts: null,
+  };
   const startPaymentTransactionData = {
     method: "startPaymentTransaction",
     requestId: uuidv4(),
     targetType: "paymentGatewayConverge",
     version: "1.0",
-    parameters: {
-      paymentGatewayId,
-      transactionType: "SALE",
-      baseTransactionAmount: {
-        value: amount,
-        currencyCode: "CAD",
-      },
-      tenderType: "CARD",
-      cardType: cardType || null,
-      cardEntryTypes: isManualEntry ? ["MANUALLY_ENTERED"] : undefined,
-      isTaxInclusive: false,
-      partialApprovalAllowed: true,
-      taxAmounts: [
-        {
-          value: 0,
-          currencyCode: "CAD",
-        },
-      ],
-      discountAmounts: null,
-    },
+    parameters: payementParameters,
   };
   if (!paymentGatewayId) {
     res
@@ -108,13 +112,15 @@ exports.startPaymentTransaction = async (req, res, next) => {
       logger.info(`Start Payment Transaction Request success`);
       const chanId = response?.data?.data?.paymentGatewayCommand?.chanId;
       if (isManualEntry) {
-        const getPaymentTransactionStatusResponse =
-          await getPaymentTransactionDetails({ paymentGatewayId, chanId });
+        const getPaymentTransactionStatusResponse = await getPaymentTransactionDetails({ paymentGatewayId, chanId });
         const continuePaymentResponse = await continuePaymentTransaction(
           paymentGatewayId,
           chanId
         );
-        res.status(200).json({ success: true, data: response?.data?.data });
+        const transactionsData = { ...cardReaderInfo, ...payementParameters };
+        transactionsData.chanId = chanId;
+        const addTransaction = await addTransactionDetails(transactionsData);
+        res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction });
       } else {
         res.status(200).json({ success: true, data: response?.data?.data });
       }
@@ -191,6 +197,18 @@ const getPaymentTransactionDetails = async (parameters) => {
   );
   return response;
 };
+
+const addTransactionDetails = async (parameters) => {
+  const addTransactionURL = `${SERVER_URL}/transaction/add`;
+  const transactionData = parameters;
+  const response = await instance.post(
+    addTransactionURL,
+    transactionData
+  );
+  return response;
+};
+
+
 
 exports.cancelPaymentTransaction = async (req, res, next) => {
   logger.info(`Get Cancel Payment Transaction Request Initated`);
