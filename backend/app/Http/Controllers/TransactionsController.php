@@ -73,7 +73,8 @@ class TransactionsController extends Controller
                     if($create){
                         $result = new Response([
                             "status" => "success",
-                            "message" => "Added successfully"
+                            "message" => "Added successfully",
+                            "data" => $data
                         ]);
                         $result->setStatusCode(200);
                     }
