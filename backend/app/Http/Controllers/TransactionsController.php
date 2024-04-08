@@ -20,7 +20,7 @@ class TransactionsController extends Controller
     {
         $this->jwtToken = JWTAuth::parseToken()->getPayload();
         $this->logController = $logController;
-        $this->configTableEmailTextInfoConnection = DB::connection('mysqlConfig')->table('emailTextInfo');
+        // $this->configTableEmailTextInfoConnection = DB::connection('mysqlConfig')->table('emailTextInfo');
     }
 
     public function listTransactions(Request $request, $id)
@@ -56,7 +56,7 @@ class TransactionsController extends Controller
     {
         if($request->isMethod('POST')){
             $rules = [
-                "paymentGatewayId" => "required",
+                "paymentGatewayId" => "nullable",
             ];
             $validate = Validator::make($request->all(), $rules);
             if($validate->fails()){
