@@ -203,8 +203,10 @@ const getPaymentTransactionDetails = async (parameters) => {
 
 const addTransactionDetails = async (parameters) => {
   logger.info(`Start Add Transaction To server...`);
-  const addTransactionURL = `${SERVER_URL}/transaction/add`;
+  const addTransactionURL = `${SERVER_URL}/transactions/add`;
+  logger.info(`addTransactionURL : ${addTransactionURL}`);
   const transactionData = parameters;
+  logger.info(transactionData);
   const response = await instance.post(
     addTransactionURL,
     transactionData

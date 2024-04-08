@@ -68,15 +68,12 @@ class TransactionsController extends Controller
             } else {
                 try {
                     $data = $request->post();
-
-                    if($create){
-                        $result = new Response([
-                            "status" => "success",
-                            "message" => "Added successfully",
-                            "data" => $data
-                        ]);
-                        $result->setStatusCode(200);
-                    }
+                    $result = new Response([
+                        "status" => "success",
+                        "message" => "Added successfully",
+                        "data" => $data
+                    ]);
+                    $result->setStatusCode(200);
                 } catch (\Throwable $th) {
                     $result = new Response([
                         "status" => "error",
