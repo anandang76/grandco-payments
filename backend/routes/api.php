@@ -12,6 +12,9 @@ use App\Http\Controllers\DeviceManagementController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\ConfigDeviceController;
 use App\Http\Controllers\DeviceModeController;
+use App\Http\Controllers\TransactionsController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -231,8 +234,14 @@ Route::middleware(['verifyJWT'])->group(function () {
     });
 
     Route::post('getLocationDetails', [DeviceConfigController::class, 'getLocationDetails'])->name('getLocationDetails');
-
     Route::post('sendMail', [ConfigDeviceController::class, 'sendMail'])->name('sendMail');
+
+    Route::prefix('transactions')->group(function () {
+        Route::post('list/{id}', [TransactionsController::class, 'listTransactions'])->name('listTransactions');
+        Route::post('add', [TransactionsController::class, 'addTransactions'])->name('addTransactions');
+        Route::post('update/{id}', [TransactionsController::class, 'updateTransactions'])->name('updateTransactions');
+    });
+
 });
 
 // Device to server communication
