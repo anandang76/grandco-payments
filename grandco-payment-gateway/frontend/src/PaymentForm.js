@@ -101,6 +101,7 @@ function PaymentForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const cardReaderInfo = localStorage.getItem('cardReaderInfo') ? JSON.parse(localStorage.getItem('cardReaderInfo')) : {};
     if (!formData.refund) {
       axios
         .post("/startPaymentTransaction", {
@@ -108,7 +109,7 @@ function PaymentForm() {
           isManualEntry: formData.cardEntry,
           cardType: formData.cardType,
           paymentId,
-          cardReaderInfo : localStorage.getItem('cardReaderInfo'),
+          cardReaderInfo
         })
         .then((response) => {
           console.log(

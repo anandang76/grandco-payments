@@ -111,18 +111,21 @@ exports.startPaymentTransaction = async (req, res, next) => {
     .then(async function (response) {
       logger.info(`Start Payment Transaction Request success`);
       const chanId = response?.data?.data?.paymentGatewayCommand?.chanId;
+      const transactionsData = { ...cardReaderInfo, ...payementParameters };
+      transactionsData.chanId = chanId;
       if (isManualEntry) {
         const getPaymentTransactionStatusResponse = await getPaymentTransactionDetails({ paymentGatewayId, chanId });
         const continuePaymentResponse = await continuePaymentTransaction(
           paymentGatewayId,
           chanId
         );
-        const transactionsData = { ...cardReaderInfo, ...payementParameters };
-        transactionsData.chanId = chanId;
+        logger.info(`Start Payment Transaction Request to server...`);
         const addTransaction = await addTransactionDetails(transactionsData);
         res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction });
       } else {
-        res.status(200).json({ success: true, data: response?.data?.data });
+        logger.info(`Start Payment Transaction Request to server...`);
+        const addTransaction = await addTransactionDetails(transactionsData);
+        res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction });
       }
     })
     .catch(function (error) {
@@ -199,12 +202,14 @@ const getPaymentTransactionDetails = async (parameters) => {
 };
 
 const addTransactionDetails = async (parameters) => {
+  logger.info(`Start Add Transaction To server...`);
   const addTransactionURL = `${SERVER_URL}/transaction/add`;
   const transactionData = parameters;
   const response = await instance.post(
     addTransactionURL,
     transactionData
   );
+  logger.info(`End Add Transaction To server...`);
   return response;
 };
 

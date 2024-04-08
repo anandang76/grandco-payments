@@ -69,7 +69,6 @@ class TransactionsController extends Controller
                 try {
                     $data = $request->post();
 
-
                     if($create){
                         $result = new Response([
                             "status" => "success",

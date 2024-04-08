@@ -236,16 +236,11 @@ Route::middleware(['verifyJWT'])->group(function () {
     Route::post('getLocationDetails', [DeviceConfigController::class, 'getLocationDetails'])->name('getLocationDetails');
     Route::post('sendMail', [ConfigDeviceController::class, 'sendMail'])->name('sendMail');
 
-    Route::prefix('transactions')->group(function () {
-        Route::post('list/{id}', [TransactionsController::class, 'listTransactions'])->name('listTransactions');
-        Route::post('add', [TransactionsController::class, 'addTransactions'])->name('addTransactions');
-        Route::post('update/{id}', [TransactionsController::class, 'updateTransactions'])->name('updateTransactions');
-    });
+
 
 });
 
 // Device to server communication
-
 Route::prefix('configDevice')->group(function () {
     Route::post('get', [ConfigDeviceController::class, 'getConfigDevice'])->name('getConfigDevice');
 });
@@ -256,4 +251,11 @@ Route::prefix('device')->group(function () {
 
 Route::prefix('deviceEventLog')->group(function () {
     Route::post('log/{fileName}', [ConfigDeviceController::class, 'createEventLog'])->name('createEventLog');
+});
+
+
+Route::prefix('transactions')->group(function () {
+    Route::post('list/{id}', [TransactionsController::class, 'listTransactions'])->name('listTransactions');
+    Route::post('add', [TransactionsController::class, 'addTransactions'])->name('addTransactions');
+    Route::post('update/{id}', [TransactionsController::class, 'updateTransactions'])->name('updateTransactions');
 });
