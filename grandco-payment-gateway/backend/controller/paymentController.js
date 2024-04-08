@@ -52,6 +52,9 @@ exports.openPaymentGateway = async (req, res, next) => {
   instance
     .post(BASE_URL, openPaymentGatewayData)
     .then(function (response) {
+      // logger.info("&&&&&&&&&&&&&&&&&&&")
+      // console.log(response);
+      // logger.info("&&&&&&&&&&&&&&&&&&&")
       logger.info(`Open Payment Gateway Request success`);
       res.status(200).json({ success: true, data: response?.data?.data });
     })
@@ -302,4 +305,38 @@ exports.linkedRefund = async (req, res, next) => {
       logger.error(`Get Linked Refund Request failed: ${error?.message}`);
       res.status(200).json({ success: false, data: error?.message });
     });
+};
+
+exports.getApiInfo = async (req, res, next) => {
+  logger.info(`Get Linked getApiInfo Request Initiated`);
+  try {
+    const response = await exports.apiInfo();
+    logger.info(`Get Linked getApiInfo Request success`);
+    res.status(200).json({ success: true, data: response?.data });
+  } catch (error) {
+    logger.error(`Get Linked getApiInfo Request failed: ${error?.message}`);
+    res.status(200).json({ success: false, data: error?.message });
+  }
+};
+
+
+exports.apiInfo = async () => {
+  logger.info(`Get Linked getApiInfo Request Initiated`);
+  const cardReaderInfo = {
+    method: "getApiInfo",
+    requestId: uuidv4(),
+    targetType: "api",
+    version: "1.0",
+    parameters: {
+      "logLevel" : "DEBUG"
+    },
+  };
+  try {
+    const response = await instance.post(BASE_URL, cardReaderInfo);
+    logger.info(`Get Linked getApiInfo Request success`);
+    return { success: true, data: response?.data?.data };
+  } catch (error) {
+    logger.error(`Get Linked getApiInfo Request failed: ${error?.message}`);
+    throw error;
+  }
 };

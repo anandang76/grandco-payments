@@ -44,6 +44,20 @@ function PaymentForm() {
     }
   };
 
+
+  const getApiInfoDetails = () => {
+    axios
+    .get("/getApiInfo")
+    .then((response) => {
+      console.log("getApiInfo:", JSON.stringify(response.data));
+      console.log(response.data);
+      localStorage.setItem('cardReaderInfo', JSON.stringify(response.data?.data?.cardReaderInfo))
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  }
+
   useEffect(() => {
     axios
       .post("/openPaymentGateway")
@@ -58,6 +72,7 @@ function PaymentForm() {
       .catch((error) => {
         console.error("Error:", error);
       });
+    getApiInfoDetails();
   }, []);
 
   useEffect(() => {
@@ -230,11 +245,11 @@ function PaymentForm() {
   };
 
   return (
-    <div className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
+    <div className="d-flex align-items-center" style={{ minHeight: "50vh" }}>
       <Container style={containerStyle}>
         <Row>
           <Col>
-            <h2>GrandCo Payment</h2>
+            <h2>GrandCo Payment V2</h2>
             <Form onSubmit={handleSubmit}>
               {!formData.refund ? (
                 <>

@@ -25,6 +25,8 @@ app.post("/printReceipt", Payment.printReceipt);
 
 app.post("/linkedRefund", Payment.linkedRefund);
 
+app.get("/getApiInfo", Payment.getApiInfo);
+
 app.listen(port, () => {
   logger.info(`Grandco app listening on port ${port}`);
 });
