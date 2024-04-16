@@ -75,7 +75,7 @@ class TransactionsController extends Controller
                 if($deviceDetails){
                     $deviceID = $deviceDetails->id;
                 }
-
+                $baseTransactionAmount = $request->input('baseTransactionAmount');
                 $data_arr = array(
                     'transactionID' => $request->input('chanId'), 
                     'deviceID' => $deviceID, 
@@ -84,8 +84,8 @@ class TransactionsController extends Controller
                     'chanID' => $request->input('chanId'), 
                     // 'firstName' => $request->input('firstName'), 
                     // 'lastName' => $request->input('lastName'), 
-                    // 'amount' => $request->input('amount'), 
-                    // 'currencyCode' => $request->input('currencyCode'), 
+                    'amount' => @$baseTransactionAmount['amount'], 
+                    'currencyCode' => @$baseTransactionAmount['currencyCode'], 
                     // 'transactionType' => $request->input('transactionType'), 
                     // 'cardEntryType' => $request->input('cardEntryType'), 
                     // 'cardType' => $request->input('cardType'), 
@@ -96,8 +96,8 @@ class TransactionsController extends Controller
                     // 'transactionDate' => $request->input('transactionDate'), 
                     // 'cardScheme' => $request->input('cardScheme'), 
                     // 'creditSurchargeStatus' => $request->input('creditSurchargeStatus'), 
-                    // 'expDate' => $request->input('expDate'), 
-                    // 'result' => $request->input('result')
+                    'expDate' => date('Y-m-d H:i:s'), 
+                    'result' => "PENDING"
                 );
                 
                 $create = $this->configTransactionsConnection->insert($data_arr);
