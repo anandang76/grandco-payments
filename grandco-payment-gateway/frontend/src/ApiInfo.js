@@ -36,7 +36,14 @@ function ApiInfo() {
                 >
                     Show API Info 
                 </Button>
-                {apiInfo && Object.keys(apiInfo)?.length > 0 && <pre>{JSON.stringify(apiInfo)}</pre>}
+                {/* {apiInfo && Object.keys(apiInfo)?.length > 0 && <code>{JSON.stringify(apiInfo)}</code>} */}
+                {apiInfo && Object.keys(apiInfo)?.length > 0 && <div>
+                    <p>Name : {apiInfo?.data?.cardReaderInfo?.name}</p>
+                    <p>Serial Number : {apiInfo?.data?.cardReaderInfo?.serialNumber}</p>
+                    <p>Payment App Name : {apiInfo?.data?.cardReaderInfo?.paymentAppName}</p>
+                    <code>{JSON.stringify(apiInfo)}</code>
+                </div>}
+
             </Container>
         </div>
     )

@@ -105,7 +105,8 @@ class TransactionsController extends Controller
                 $result = new Response([
                     "status" => "success",
                     "message" => "Added successfully",
-                    "data" => $data_arr
+                    "data_arr" => $data_arr,
+                    "data" => $data
                 ]);
                 $result->setStatusCode(200);
             } catch (\Throwable $th) {

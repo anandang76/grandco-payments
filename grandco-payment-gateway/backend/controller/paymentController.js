@@ -15,8 +15,8 @@ function delay(ms) {
 }
 
 const BASE_URL = "https://localhost:9790/rest/command";
-// const SERVER_URL = "https://dabadu.grandcopayments.com/backend/api";
-const SERVER_URL = "http://localhost/projects/grandco-payments/backend/public/api";
+const SERVER_URL = "https://dabadu.grandcopayments.com/backend/api";
+// const SERVER_URL = "http://localhost/projects/grandco-payments/backend/public/api";
 
 
 exports.openPaymentGateway = async (req, res, next) => {
