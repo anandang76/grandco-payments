@@ -15,8 +15,8 @@ function delay(ms) {
 }
 
 const BASE_URL = "https://localhost:9790/rest/command";
-const SERVER_URL = "https://dabadu.grandcopayments.com/backend/api";
-// const SERVER_URL = "http://localhost:8000/api";
+// const SERVER_URL = "https://dabadu.grandcopayments.com/backend/api";
+const SERVER_URL = "http://localhost/projects/grandco-payments/backend/public/api";
 
 
 exports.openPaymentGateway = async (req, res, next) => {
@@ -123,11 +123,11 @@ exports.startPaymentTransaction = async (req, res, next) => {
         );
         logger.info(`Start Payment Transaction Request to server...`);
         addTransaction = await addTransactionDetails(transactionsData);
-        res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction });
+        res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction.data });
       } else {
         logger.info(`Start Payment Transaction Request to server...`);
         addTransaction = await addTransactionDetails(transactionsData);
-        res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction });
+        res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction.data });
       }
     })
     .catch(function (error) {
@@ -176,9 +176,12 @@ exports.getPaymentTransactionStatus = async (req, res, next) => {
 
   instance
     .post(BASE_URL, getPaymentTransactionStatusData)
-    .then(function (response) {
+    .then(async function (response) {
+
+      var updateTransaction = await updateTransactionDetails(response?.data?.data, req?.body?.chanId);
+
       logger.info(`Get Payment Transaction Status Request success`);
-      res.status(200).json({ success: true, data: response?.data?.data });
+      res.status(200).json({ success: true, data: response?.data?.data, updateTransaction: updateTransaction?.data });
     })
     .catch(function (error) {
       logger.error(
@@ -213,11 +216,27 @@ const addTransactionDetails = async (parameters) => {
     addTransactionURL,
     transactionData
   );
+  logger.info(`=== done ===`);
+  logger.info(`${response}`);
   logger.info(`End Add Transaction To server...`);
   return response;
 };
 
-
+const updateTransactionDetails = async (parameters, chanId) => {
+  logger.info(`Start Update Transaction To server...`);
+  const addTransactionURL = `${SERVER_URL}/transactions/update/${chanId}`;
+  logger.info(`addTransactionURL : ${addTransactionURL}`);
+  const transactionData = parameters;
+  logger.info(transactionData);
+  const response = await instance.post(
+    addTransactionURL,
+    transactionData
+  );
+  logger.info(`=== done ===`);
+  logger.info(`${response}`);
+  logger.info(`End Update Transaction To server...`);
+  return response;
+};
 
 exports.cancelPaymentTransaction = async (req, res, next) => {
   logger.info(`Get Cancel Payment Transaction Request Initated`);
