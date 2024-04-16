@@ -16,6 +16,7 @@ function delay(ms) {
 
 const BASE_URL = "https://localhost:9790/rest/command";
 const SERVER_URL = "https://dabadu.grandcopayments.com/backend/api";
+// const SERVER_URL = "http://localhost:8000/api";
 
 
 exports.openPaymentGateway = async (req, res, next) => {
@@ -113,6 +114,7 @@ exports.startPaymentTransaction = async (req, res, next) => {
       const chanId = response?.data?.data?.paymentGatewayCommand?.chanId;
       const transactionsData = { ...cardReaderInfo, ...payementParameters };
       transactionsData.chanId = chanId;
+      var addTransaction = {};
       if (isManualEntry) {
         const getPaymentTransactionStatusResponse = await getPaymentTransactionDetails({ paymentGatewayId, chanId });
         const continuePaymentResponse = await continuePaymentTransaction(
@@ -120,11 +122,11 @@ exports.startPaymentTransaction = async (req, res, next) => {
           chanId
         );
         logger.info(`Start Payment Transaction Request to server...`);
-        const addTransaction = await addTransactionDetails(transactionsData);
+        addTransaction = await addTransactionDetails(transactionsData);
         res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction });
       } else {
         logger.info(`Start Payment Transaction Request to server...`);
-        const addTransaction = await addTransactionDetails(transactionsData);
+        addTransaction = await addTransactionDetails(transactionsData);
         res.status(200).json({ success: true, data: response?.data?.data, addTransaction: addTransaction });
       }
     })

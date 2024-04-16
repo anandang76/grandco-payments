@@ -255,7 +255,7 @@ Route::prefix('deviceEventLog')->group(function () {
 
 
 Route::prefix('transactions')->group(function () {
-    Route::post('list/{id}', [TransactionsController::class, 'listTransactions'])->name('listTransactions');
-    Route::post('add', [TransactionsController::class, 'addTransactions'])->name('addTransactions');
-    Route::post('update/{id}', [TransactionsController::class, 'updateTransactions'])->name('updateTransactions');
+    Route::any('list/{id}', [TransactionsController::class, 'listTransactions'])->name('listTransactions');
+    Route::any('add', [TransactionsController::class, 'addTransactions'])->name('addTransactions');
+    Route::any('update/{id}', [TransactionsController::class, 'updateTransactions'])->name('updateTransactions');
 });

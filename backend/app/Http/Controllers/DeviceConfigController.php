@@ -1675,7 +1675,7 @@ class DeviceConfigController extends Controller
                     } else {
                         $data = $query
                                     ->where("id", $id)
-                                    ->select('categoryID', 'deviceCategory', 'deviceName', 'deviceTag', 'macAddress', 'firmwareVersion', 'hardwareModelVersion', 'pollingPriority', 'nonPollingPriority', 'disconnectionStatus', 'binFileName', 'dataPushUrl', 'deviceMode', 'modifiedStatus', 'disconnectedOnGrid')
+                                    ->select('categoryID', 'deviceCategory', 'deviceName', 'deviceTag', 'macAddress', 'serialNumber','firmwareVersion', 'hardwareModelVersion', 'pollingPriority', 'nonPollingPriority', 'disconnectionStatus', 'binFileName', 'dataPushUrl', 'deviceMode', 'modifiedStatus', 'disconnectedOnGrid')
                                     ->first();
 
                         // $tempAry = explode("/", @$data->binFileName);
@@ -1868,6 +1868,7 @@ class DeviceConfigController extends Controller
                         "deviceCategory" => $category->categoryName,
                         "firmwareVersion" => $request->firmwareVersion,
                         "macAddress" => $request->macAddress,
+                        "serialNumber" => $request->serialNumber,
                         "deviceTag" => $request->deviceTag,
                         "nonPollingPriority" => $request->nonPollingPriority,
                         "pollingPriority" => $request->pollingPriority,

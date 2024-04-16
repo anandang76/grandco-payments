@@ -20,6 +20,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
         deviceName: '',
         deviceTag: '',
         macAddress: '',
+        serialNumber: '',
         firmwareVersion: '',
         hardwareModelVersion: '',
         pollingPriority: '',
@@ -130,6 +131,11 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
             isValid = false;
         }
 
+        if(formData?.serialNumber == "" || formData?.serialNumber?.length == 0){
+                error['serialNumber'] = "Serial Number is required";
+                isValid = false;
+        }
+        
         if(formData.pollingPriority){
             if(formData.pollingPriority == "" || String(formData.pollingPriority).trim() == ""){
                 error['pollingPriority'] = "Polling Priority Value is required";
@@ -177,7 +183,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
 
     const HandleAddLocation = async () => {
         if(HandleValid()){
-            let { deviceCategory, deviceName, deviceTag, macAddress, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectedOnGrid, dataPushUrl } = formData;
+            let { deviceCategory, deviceName, deviceTag, macAddress, serialNumber, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectedOnGrid, dataPushUrl } = formData;
 
             const Data = new FormData();
 
@@ -185,6 +191,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
             Data.append('deviceName', deviceName);
             Data.append('deviceTag', deviceTag);
             Data.append('macAddress', macAddress);
+            Data.append('serialNumber', serialNumber);
             Data.append('firmwareVersion', firmwareVersion);
             Data.append('hardwareModelVersion', hardwareModelVersion);
             Data.append('pollingPriority', pollingPriority);
@@ -262,7 +269,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
         });
 
         if(response.data?.status == "success"){
-            let { categoryID, deviceCategory, deviceName, deviceTag, macAddress, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectionStatus, binFileName, dataPushUrl, disconnectedOnGrid } = response.data.data;
+            let { categoryID, deviceCategory, deviceName, deviceTag, macAddress, serialNumber, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectionStatus, binFileName, dataPushUrl, disconnectedOnGrid } = response.data.data;
 
             let data = {
                 deviceCategory: {
@@ -272,6 +279,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
                 deviceName: deviceName,
                 deviceTag: deviceTag,
                 macAddress: macAddress,
+                serialNumber: serialNumber,
                 firmwareVersion: firmwareVersion,
                 hardwareModelVersion: hardwareModelVersion,
                 pollingPriority: pollingPriority,
@@ -387,6 +395,30 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
                                                     />
                                                     {formError.deviceTag && <div className='text-sm text-danger'>{formError.deviceTag}</div>}
                                                 </div>
+                                                <div className='w-full'>
+                                                    <label htmlFor="serialNumber" className="dark:text-white">Serial Number *</label>
+                                                    <input
+                                                        type="text"
+                                                        className='form-input dark:text-white'
+                                                        name="serialNumber"
+                                                        onChange={handleChange}
+                                                        value={formData.serialNumber}
+                                                    />
+                                                    {formError.serialNumber && <div className='text-sm text-danger'>{formError.serialNumber}</div>}
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-row w-full gap-4">
+                                                {/* <div className='w-full'>
+                                                    <label htmlFor="deviceTag" className="dark:text-white">Device Tag *</label>
+                                                    <input
+                                                        type="text"
+                                                        className='form-input dark:text-white'
+                                                        name="deviceTag"
+                                                        onChange={handleChange}
+                                                        value={formData.deviceTag}
+                                                    />
+                                                    {formError.deviceTag && <div className='text-sm text-danger'>{formError.deviceTag}</div>}
+                                                </div> */}
                                                 <div className='w-full'>
                                                     <label htmlFor="macAddress" className="dark:text-white">MAC Address *</label>
                                                     <input

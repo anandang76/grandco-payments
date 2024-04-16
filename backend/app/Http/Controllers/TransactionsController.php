@@ -18,7 +18,7 @@ class TransactionsController extends Controller
 
     public function __construct(LogController $logController)
     {
-        $this->jwtToken = JWTAuth::parseToken()->getPayload();
+        // $this->jwtToken = JWTAuth::parseToken()->getPayload();
         $this->logController = $logController;
         // $this->configTableEmailTextInfoConnection = DB::connection('mysqlConfig')->table('emailTextInfo');
     }
@@ -48,48 +48,38 @@ class TransactionsController extends Controller
             ]);
             $result->setStatusCode(405);
         }
-
         return $result;
     }
 
     public function addTransactions(Request $request)
     {
-        if($request->isMethod('POST')){
-            $rules = [
-                "paymentGatewayId" => "nullable",
-            ];
-            $validate = Validator::make($request->all(), $rules);
-            if($validate->fails()){
-                $result = new Response([
-                    "status" => "error",
-                    "message" => $validate->errors()
-                ]);
-                $result->setStatusCode(422);
-            } else {
-                try {
-                    $data = $request->post();
-                    $result = new Response([
-                        "status" => "success",
-                        "message" => "Added successfully",
-                        "data" => $data
-                    ]);
-                    $result->setStatusCode(200);
-                } catch (\Throwable $th) {
-                    $result = new Response([
-                        "status" => "error",
-                        "message" => $th->getMessage()
-                    ]);
-                    $result->setStatusCode(500);
-                }
-            }
-        } else {
+        $rules = [
+            "paymentGatewayId" => "nullable",
+        ];
+        $validate = Validator::make($request->all(), $rules);
+        if($validate->fails()){
             $result = new Response([
                 "status" => "error",
-                "message" => "Request method not allowed"
+                "message" => $validate->errors()
             ]);
-            $result->setStatusCode(405);
+            $result->setStatusCode(422);
+        } else {
+            try {
+                $data = $request->post();
+                $result = new Response([
+                    "status" => "success",
+                    "message" => "Added successfully",
+                    "data" => $data
+                ]);
+                $result->setStatusCode(200);
+            } catch (\Throwable $th) {
+                $result = new Response([
+                    "status" => "error",
+                    "message" => $th->getMessage()
+                ]);
+                $result->setStatusCode(500);
+            }
         }
-
         return $result;
     }
 
