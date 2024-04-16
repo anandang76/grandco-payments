@@ -84,7 +84,7 @@ class TransactionsController extends Controller
                     'chanID' => $request->input('chanId'), 
                     // 'firstName' => $request->input('firstName'), 
                     // 'lastName' => $request->input('lastName'), 
-                    'amount' => @$baseTransactionAmount['amount'], 
+                    'amount' => @$baseTransactionAmount['value'], 
                     'currencyCode' => @$baseTransactionAmount['currencyCode'], 
                     // 'transactionType' => $request->input('transactionType'), 
                     // 'cardEntryType' => $request->input('cardEntryType'), 
