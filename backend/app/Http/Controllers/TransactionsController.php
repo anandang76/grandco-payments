@@ -175,7 +175,7 @@ class TransactionsController extends Controller
                 $result = new Response([
                     "status" => "success",
                     "message" => "Updated successfully",
-                    "data" => $paymentTransactionData['result']
+                    "data" => @$paymentTransactionData['result']
                 ]);
                 $result->setStatusCode(200);
             } catch (\Throwable $th) {
