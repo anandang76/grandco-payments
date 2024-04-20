@@ -4,9 +4,9 @@ import ApiInfo from "./ApiInfo";
 
 function App() {
   return (
-    <div>
+    <div className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
       <PaymentForm />
-      <ApiInfo />
+      {/* <ApiInfo /> */}
     </div>
   );
 }

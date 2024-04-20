@@ -247,11 +247,15 @@ function PaymentForm() {
   };
 
   return (
-    <div className="d-flex align-items-center" style={{ minHeight: "50vh" }}>
+    <div className="mx-auto">
       <Container style={containerStyle}>
         <Row>
           <Col>
-            <h2>GrandCo Payment V2</h2>
+            <div className="mx-auto text-center">
+              <img src="logo-dark.png" alt="GrandCo" />
+              <h2>GrandCo Payment V2</h2>
+            </div>
+            
             <Form onSubmit={handleSubmit}>
               {!formData.refund ? (
                 <>
