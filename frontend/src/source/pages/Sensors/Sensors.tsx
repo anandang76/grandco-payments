@@ -10,7 +10,7 @@ const Sensors = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setPageTitle('Sensors'));
+        dispatch(setPageTitle('Transactions'));
     });
 
     const navigate = useNavigate();

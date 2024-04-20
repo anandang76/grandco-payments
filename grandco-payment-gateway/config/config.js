@@ -12,6 +12,9 @@ module.exports = function () {
     VENDORAPPVERSION: "1.0",
     BMSUSERNAME: "tJovqWdIQgyLJoiIAgvJNw",
     BMSPASSWORD: "Ty5g09Sz0qR_1XzAoivmUKFTo_9fzBZMcAUqk63Ip_E",
+    SERVER_URL: "https://dabadu.grandcopayments.com/backend/api",
+    // SERVER_URL: "http://localhost/projects/grandco-payments/backend/public/api",
+    CUSTOMER_ID: "cd7db52f-af90-448a-ab3d-5e1948948d81"
   };
 
   return config_data;

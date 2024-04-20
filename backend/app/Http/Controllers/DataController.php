@@ -181,7 +181,7 @@ class DataController extends Controller
             $deviceID = $request->deviceID;
 
             $transaction  = DB::connection('mysqlConfig')
-                ->table('transaction')
+                ->table('transactions')
                 ->select('*' )
                 ->where('deviceID', '=', $deviceID)
                 ->get();

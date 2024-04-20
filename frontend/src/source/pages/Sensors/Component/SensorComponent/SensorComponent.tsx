@@ -179,7 +179,7 @@ const SensorComponent = ({ params }: any) => {
                             cellsClassName: '!text-center !py-1 w-40 dark:text-white',
                             title: 'Name',
                             render: ((record: any) => {
-                                return <div>{record?.firstName +" "+ record?.lastName}</div>
+                                return <div>{(record?.firstName || "") +" "+ (record?.lastName || "")}</div>
                             }),
                             sortable: true
                         },
@@ -189,7 +189,7 @@ const SensorComponent = ({ params }: any) => {
                             cellsClassName: '!text-center !py-1 w-40 dark:text-white',
                             title: 'Amount',
                             render: ((record: any) => {
-                                return <div>${record?.amount}</div>
+                                return <div className='font-bold'>${record?.amount/100}</div>
                             }),
                             sortable: true
                         },
@@ -229,7 +229,13 @@ const SensorComponent = ({ params }: any) => {
                             cellsClassName: '!text-center !py-1 w-40 dark:text-white',
                             title: 'Status',
                             render: ((record: any) => {
-                                return <div>{record?.result}</div>
+                                return (
+                                    <>
+                                        {record?.result == "PENDING" && <div className='font-bold text-warning'>{record?.result}</div>}
+                                        {record?.result == "APPROVED" && <div className='font-bold text-success'>{record?.result}</div>}
+
+                                    </>
+                                )
                             }),
                             sortable: true
                         },

@@ -9,15 +9,17 @@ const instance = axios.create({
     rejectUnauthorized: false,
   }),
 });
+instance.defaults.headers.common['Customer-ID'] = config.CUSTOMER_ID;
+console.log("Customer ID: "+ config.CUSTOMER_ID);
+
+const BASE_URL = "https://localhost:9790/rest/command";
+const SERVER_URL = config.SERVER_URL;
+const CUSTOMER_ID = config.CUSTOMER_ID;
+// const SERVER_URL = "http://localhost/projects/grandco-payments/backend/public/api";
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-const BASE_URL = "https://localhost:9790/rest/command";
-const SERVER_URL = "https://dabadu.grandcopayments.com/backend/api";
-// const SERVER_URL = "http://localhost/projects/grandco-payments/backend/public/api";
-
 
 exports.openPaymentGateway = async (req, res, next) => {
   logger.info(`Open Payment Gateway Request Initated`);
@@ -112,7 +114,9 @@ exports.startPaymentTransaction = async (req, res, next) => {
     .then(async function (response) {
       logger.info(`Start Payment Transaction Request success`);
       const chanId = response?.data?.data?.paymentGatewayCommand?.chanId;
-      const transactionsData = { ...cardReaderInfo, ...payementParameters };
+      var transactionsData = {};
+      transactionsData.paymentInfo = {...payementParameters };
+      transactionsData.cardReaderInfo = { ...cardReaderInfo,};
       transactionsData.chanId = chanId;
       var addTransaction = {};
       if (isManualEntry) {
@@ -177,9 +181,15 @@ exports.getPaymentTransactionStatus = async (req, res, next) => {
   instance
     .post(BASE_URL, getPaymentTransactionStatusData)
     .then(async function (response) {
+      var chanId = req?.body?.chanId;
+      var transactionsData = {};
+      transactionsData.paymentInfo = response?.data?.data?.paymentGatewayCommand?.paymentTransactionData;
+      // transactionsData.cardReaderInfo = { ...cardReaderInfo,};
+      // transactionsData.chanId = chanId;
 
-      var updateTransaction = await updateTransactionDetails(response?.data?.data, req?.body?.chanId);
-
+      var updateTransaction = await updateTransactionDetails(transactionsData, chanId);
+      console.log(transactionsData);
+      console.log("-=============");
       logger.info(`Get Payment Transaction Status Request success`);
       res.status(200).json({ success: true, data: response?.data?.data, updateTransaction: updateTransaction?.data });
     })
@@ -212,11 +222,13 @@ const addTransactionDetails = async (parameters) => {
   logger.info(`addTransactionURL : ${addTransactionURL}`);
   const transactionData = parameters;
   logger.info(transactionData);
+  console.log(transactionData);
+  console.log("=============");
   const response = await instance.post(
     addTransactionURL,
     transactionData
   );
-  logger.info(`=== done ===`);
+  logger.info(`=== add done ===`);
   logger.info(`${response}`);
   logger.info(`End Add Transaction To server...`);
   return response;
@@ -232,7 +244,7 @@ const updateTransactionDetails = async (parameters, chanId) => {
     addTransactionURL,
     transactionData
   );
-  logger.info(`=== done ===`);
+  logger.info(`=== update done ===`);
   logger.info(`${response}`);
   logger.info(`End Update Transaction To server...`);
   return response;

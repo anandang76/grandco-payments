@@ -20,7 +20,7 @@ class TransactionsController extends Controller
     {
         // $this->jwtToken = JWTAuth::parseToken()->getPayload();
         $this->logController = $logController;
-        $this->configTransactionsConnection = DB::connection('mysqlConfig')->table('transaction');
+        $this->configTransactionsConnection = DB::connection('mysqlConfig')->table('transactions');
     }
 
     public function listTransactions(Request $request, $id)
@@ -54,7 +54,9 @@ class TransactionsController extends Controller
     public function addTransactions(Request $request)
     {
         $rules = [
-            "paymentGatewayId" => "nullable",
+            "paymentInfo" => "required",
+            "cardReaderInfo" => "required",
+            "chanId" => "required",
         ];
         $validate = Validator::make($request->all(), $rules);
         if($validate->fails()){
@@ -66,42 +68,32 @@ class TransactionsController extends Controller
         } else {
             try {
                 $data = $request->post();
+                $customerID = $request->header('Customer-ID');
 
-                $deviceName = $request->input('name');
+                $cardReaderInfo = $request->input('cardReaderInfo');
+                $deviceName = $cardReaderInfo['name'];
                 $deviceID = null;                
                 $deviceDetails = DB::connection('mysqlConfig')->table('devices')
                     ->where('deviceTag', '=', $deviceName)->first();
-
                 if($deviceDetails){
                     $deviceID = $deviceDetails->id;
                 }
-                $baseTransactionAmount = $request->input('baseTransactionAmount');
+                $paymentInfo = $request->input('paymentInfo');
+                $baseTransactionAmount = $paymentInfo['baseTransactionAmount'];
                 $data_arr = array(
+                    'customerID' => $customerID,
                     'transactionID' => $request->input('chanId'), 
+                    'chanID' => $request->input('chanId'),  
                     'deviceID' => $deviceID, 
-                    // 'userID' => $request->input('userID'), 
-                    'paymentGatewayID' => $request->input('paymentGatewayId'), 
-                    'chanID' => $request->input('chanId'), 
-                    // 'firstName' => $request->input('firstName'), 
-                    // 'lastName' => $request->input('lastName'), 
+                    'cardReaderName' => $deviceName,
+                    'paymentGatewayID' => $paymentInfo['paymentGatewayId'], 
+                    'transactionType' =>  $paymentInfo['transactionType'], 
                     'amount' => @$baseTransactionAmount['value'], 
                     'currencyCode' => @$baseTransactionAmount['currencyCode'], 
-                    // 'transactionType' => $request->input('transactionType'), 
-                    // 'cardEntryType' => $request->input('cardEntryType'), 
-                    // 'cardType' => $request->input('cardType'), 
-                    // 'maskedPan' => $request->input('maskedPan'), 
-                    // 'oarData' => $request->input('oarData'), 
-                    // 'ps2000Data' => $request->input('ps2000Data'), 
-                    // 'isFallback' => $request->input('isFallback'), 
-                    // 'transactionDate' => $request->input('transactionDate'), 
-                    // 'cardScheme' => $request->input('cardScheme'), 
-                    // 'creditSurchargeStatus' => $request->input('creditSurchargeStatus'), 
                     'expDate' => date('Y-m-d H:i:s'), 
                     'result' => "PENDING"
                 );
-                
                 $create = $this->configTransactionsConnection->insert($data_arr);
-
                 $result = new Response([
                     "status" => "success",
                     "message" => "Added successfully",
@@ -123,7 +115,7 @@ class TransactionsController extends Controller
     public function updateTransactions(Request $request, $id)
     {
         $rules = [
-            "paymentGatewayId" => "nullable",
+            "paymentInfo" => "required",
         ];
         $validate = Validator::make($request->all(), $rules);
         if($validate->fails()){
@@ -131,53 +123,52 @@ class TransactionsController extends Controller
                 "status" => "error",
                 "message" => $validate->errors()
             ]);
-            $result->setStatusCode(422);
+            $result->setStatusCode(200);
         } else {
             try {
                 $data = $request->post();
-                $paymentGatewayCommand =  @$request->input('paymentGatewayCommand');
-                $paymentTransactionData = @$paymentGatewayCommand['paymentTransactionData'];
-                if($paymentTransactionData){  
-                    if($paymentTransactionData['result'] != "FAILED" ){
+                $paymentInfo = $request->input('paymentInfo');
+                if($paymentInfo){  
+                    if($paymentInfo['result'] != "FAILED" ){
                         // $deviceID = null;                
                         $data_arr = array(
-                            // 'transactionID' => $request->input('chanId'), 
-                            // 'deviceID' => $deviceID, 
-                            // 'userID' => $request->input('userID'), 
-                            // 'paymentGatewayID' => $request->input('paymentGatewayId'), 
-                            // 'chanID' => $request->input('chanId'), 
-                            'firstName' => @$paymentTransactionData['firstName'], 
-                            'lastName' => @$paymentTransactionData['lastName'], 
-                            'amount' => @$paymentTransactionData['amount']['value'], 
-                            'currencyCode' => @$paymentTransactionData['amount']['currencyCode'], 
-                            'transactionType' => @$paymentTransactionData['transactionType'], 
-                            'cardEntryType' => @$paymentTransactionData['cardEntryType'], 
-                            'cardType' => @$paymentTransactionData['cardType'], 
-                            'maskedPan' => @$paymentTransactionData['maskedPan'], 
-                            'oarData' => @$paymentTransactionData['oarData'], 
-                            'ps2000Data' => @$paymentTransactionData['ps2000Data'], 
-                            'isFallback' => @$paymentTransactionData['isFallback'], 
-                            'transactionDate' => @$paymentTransactionData['transactionDate'], 
-                            'cardScheme' => @$paymentTransactionData['cardScheme'], 
-                            'creditSurchargeStatus' => @$paymentTransactionData['creditSurchargeStatus'], 
-                            'expDate' => @$paymentTransactionData['expDate'], 
-                            'result' => @$paymentTransactionData['result'],
-                            'transactionJson' => json_encode($paymentTransactionData)
+                            'firstName' => @$paymentInfo['firstName'], 
+                            'lastName' => @$paymentInfo['lastName'], 
+                            'amount' => @$paymentInfo['amount']['value'], 
+                            'currencyCode' => @$paymentInfo['amount']['currencyCode'], 
+                            'transactionType' => @$paymentInfo['transactionType'], 
+                            'cardEntryType' => @$paymentInfo['cardEntryType'], 
+                            'cardType' => @$paymentInfo['cardType'], 
+                            'maskedPan' => @$paymentInfo['maskedPan'], 
+                            'oarData' => @$paymentInfo['oarData'], 
+                            'ps2000Data' => @$paymentInfo['ps2000Data'], 
+                            'isFallback' => @$paymentInfo['isFallback'], 
+                            'transactionDate' => @$paymentInfo['transactionDate'], 
+                            'cardScheme' => @$paymentInfo['cardScheme'], 
+                            'creditSurchargeStatus' => @$paymentInfo['creditSurchargeStatus'], 
+                            'expDate' => @$paymentInfo['expDate'], 
+                            'result' => @$paymentInfo['result'],
+                            'transactionJson' => json_encode($paymentInfo)
                         );
                     }else{
                         $data_arr = array(
-                            'result' => @$paymentTransactionData['result'],
-                            'transactionJson' => json_encode($paymentTransactionData)
+                            'result' => @$paymentInfo['result'],
+                            'transactionJson' => json_encode($paymentInfo)
                         );
                     }
                     $create = $this->configTransactionsConnection->where('chanID', '=', $id)->update($data_arr);
+                    $result = new Response([
+                        "status" => "success",
+                        "message" => "Updated successfully",
+                        "data" => @$paymentInfo['result']
+                    ]);
+                }else{
+                    $result = new Response([
+                        "status" => "error",
+                        "message" => "Payment info required",
+                        "data" => []
+                    ]);
                 }
-
-                $result = new Response([
-                    "status" => "success",
-                    "message" => "Updated successfully",
-                    "data" => @$paymentTransactionData['result']
-                ]);
                 $result->setStatusCode(200);
             } catch (\Throwable $th) {
                 $result = new Response([
