@@ -439,10 +439,10 @@ const Device = () => {
                                 sortable: true
                             },
                             {
-                                accessor: 'deviceTag',
+                                accessor: 'deviceAuthID',
                                 titleClassName: 'title-center !px-1 dark-datatable-title-color',
                                 cellsClassName: '!text-center !px-1 dark:text-white font-bold',
-                                title: 'Device Tag',
+                                title: 'Device Auth ID',
                                 sortable: true
                             },
                             {
