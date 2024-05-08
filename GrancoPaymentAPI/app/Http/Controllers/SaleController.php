@@ -84,11 +84,10 @@ class SaleController extends Controller
 
                 $cardReaderInfo = $request->input('cardReaderInfo');
                 $deviceName = $cardReaderInfo['name'];
-                $deviceID = null;                
                 $deviceDetails = DB::connection('mysql')->table('devices')
-                    ->where('deviceTag', '=', $deviceName)->first();
+                    ->where('id', '=', $this->deviceID)->first();
                 if($deviceDetails){
-                    $deviceID = $deviceDetails->id;
+                    $deviceName = $deviceDetails->deviceName;
                 }
                 $paymentInfo = $request->input('paymentInfo');
                 $baseTransactionAmount = $paymentInfo['baseTransactionAmount'];
@@ -96,7 +95,7 @@ class SaleController extends Controller
                     'customerID' => $customerID,
                     'transactionID' => $request->input('chanId'), 
                     'chanID' => $request->input('chanId'),  
-                    'deviceID' => $deviceID, 
+                    'deviceID' => $this->deviceID, 
                     'cardReaderName' => $deviceName,
                     'paymentGatewayID' => $paymentInfo['paymentGatewayId'], 
                     'transactionType' =>  $paymentInfo['transactionType'], 

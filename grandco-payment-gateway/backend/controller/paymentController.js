@@ -16,6 +16,8 @@ const BASE_URL = "https://localhost:9790/rest/command";
 const SERVER_URL = config.SERVER_URL;
 const CUSTOMER_ID = config.CUSTOMER_ID;
 // const SERVER_URL = "http://localhost/projects/grandco-payments/backend/public/api";
+var accessToken = null;
+
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -66,7 +68,7 @@ exports.openPaymentGateway = async (req, res, next) => {
       var getDeviceTokenResponse = await getDeviceToken({deviceID: deviceID});
 
       logger.info(`Open Payment Gateway Request success`);
-      res.status(200).json({ success: true, data: response?.data?.data });
+      res.status(200).json({ success: true, data: response?.data?.data, token: getDeviceTokenResponse });
     })
     .catch(function (error) {
       logger.error(`Open Payment Gateway Request failed: ${error?.message}`);
@@ -188,9 +190,10 @@ exports.getPaymentTransactionStatus = async (req, res, next) => {
     .then(async function (response) {
       var chanId = req?.body?.chanId;
       var transactionsData = {};
-      transactionsData.paymentInfo = response?.data?.data?.paymentGatewayCommand?.paymentTransactionData;
+      transactionsData = response?.data?.data;
       // transactionsData.cardReaderInfo = { ...cardReaderInfo,};
       // transactionsData.chanId = chanId;
+      console.log(response?.data?.data);
 
       var updateTransaction = await updateTransactionDetails(transactionsData, chanId);
       console.log(transactionsData);
@@ -369,33 +372,54 @@ exports.apiInfo = async () => {
   }
 };
 
-const getDeviceToken = async (parameters) => {
-  logger.info(`Start get device token from server...`);
-  const tokenURL = `${SERVER_URL}/auth/login`;
-  logger.info(`TokenURL : ${tokenURL}`);
-  const authData = parameters;
-  logger.info(`Auth Data ${authData}`);
-  console.log("=============");
-  const response = await instance.post(
-    tokenURL,
-    authData
-  );
-  logger.info(`${response}`);
-  logger.info(`End get device token from server...`);
-  return response;
+
+const setAccessToken = (token) => {
+  accessToken = token;
 };
+
+const getAccessToken = () => {
+  return accessToken;
+};
+
+const getDeviceToken = async (parameters) => {
+  try {
+    // const cachedToken = getCachedToken();
+    // if (cachedToken) {
+    //   return cachedToken;
+    // }
+    logger.info(`Start get device token from server...`);
+    const tokenURL = `${SERVER_URL}/auth/login`;
+    logger.info(`TokenURL : ${tokenURL}`);
+    const authData = parameters;
+    logger.info(`Auth Data ${authData}`);
+    const response = await instance.post(tokenURL, authData);
+    const token = response?.data?.access_token;
+    logger.info(`End get device token from server...`);
+    setAccessToken(token);
+    return response?.data;
+  } catch (error) {
+    logger.error(`Failed to get device token: ${error.message}`);
+    throw error;
+  }
+};
+
 
 const addTransactionDetails = async (parameters) => {
   logger.info(`Start Add Transaction To server...`);
-  const addTransactionURL = `${SERVER_URL}/transactions/add`;
-  logger.info(`addTransactionURL : ${addTransactionURL}`);
+  const transactionURL = `${SERVER_URL}/sale/add`;
+  logger.info(`addTransactionURL : ${transactionURL}`);
   const transactionData = parameters;
   logger.info(transactionData);
   console.log(transactionData);
   console.log("=============");
   const response = await instance.post(
-    addTransactionURL,
-    transactionData
+    transactionURL,
+    transactionData,
+    {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    }
   );
   logger.info(`=== add done ===`);
   logger.info(`${response}`);
@@ -404,14 +428,21 @@ const addTransactionDetails = async (parameters) => {
 };
 
 const updateTransactionDetails = async (parameters, chanId) => {
+  var transactionData = {}
+  transactionData.paymentInfo = parameters?.paymentGatewayCommand?.paymentTransactionData;
   logger.info(`Start Update Transaction To server...`);
-  const addTransactionURL = `${SERVER_URL}/transactions/update/${chanId}`;
-  logger.info(`addTransactionURL : ${addTransactionURL}`);
-  const transactionData = parameters;
+  const transactionURL = `${SERVER_URL}/sale/update/${chanId}`;
+  logger.info(`UpdateTransactionURL : ${transactionURL}`);
   logger.info(transactionData);
+  console.log(transactionData);
   const response = await instance.post(
-    addTransactionURL,
-    transactionData
+    transactionURL,
+    transactionData,
+    {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    }
   );
   logger.info(`=== update done ===`);
   logger.info(`${response}`);
