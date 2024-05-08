@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import config from './config';
 
 const containerStyle = {
   width: "400px",
@@ -60,7 +61,9 @@ function PaymentForm() {
 
   useEffect(() => {
     axios
-      .post("/openPaymentGateway")
+      .post("/openPaymentGateway",{
+        deviceID: config.deviceID,
+      })
       .then((response) => {
         console.log("openPaymentGateway:", JSON.stringify(response.data));
         const paymentIdData =
@@ -252,8 +255,8 @@ function PaymentForm() {
         <Row>
           <Col>
             <div className="mx-auto text-center">
-              <img src="logo-dark.png" alt="GrandCo" />
-              <h2>GrandCo Payment V2</h2>
+              <img className="mb-3" src="logo-dark.png" alt="GrandCo" />
+              <h2 className="mb-3">GrandCo Payment V2</h2>
             </div>
             
             <Form onSubmit={handleSubmit}>
