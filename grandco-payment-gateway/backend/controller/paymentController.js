@@ -23,6 +23,8 @@ function delay(ms) {
 
 exports.openPaymentGateway = async (req, res, next) => {
   logger.info(`Open Payment Gateway Request Initated`);
+  const deviceID = req.body.deviceID;
+  logger.info(`deviceID : ${deviceID}`);
   const openPaymentGatewayData = {
     method: "openPaymentGateway",
     requestId: uuidv4(),
@@ -56,10 +58,13 @@ exports.openPaymentGateway = async (req, res, next) => {
   };
   instance
     .post(BASE_URL, openPaymentGatewayData)
-    .then(function (response) {
+    .then(async function (response) {
       // logger.info("&&&&&&&&&&&&&&&&&&&")
       // console.log(response);
       // logger.info("&&&&&&&&&&&&&&&&&&&")
+      
+      var getDeviceTokenResponse = await getDeviceToken({deviceID: deviceID});
+
       logger.info(`Open Payment Gateway Request success`);
       res.status(200).json({ success: true, data: response?.data?.data });
     })
@@ -216,40 +221,6 @@ const getPaymentTransactionDetails = async (parameters) => {
   return response;
 };
 
-const addTransactionDetails = async (parameters) => {
-  logger.info(`Start Add Transaction To server...`);
-  const addTransactionURL = `${SERVER_URL}/transactions/add`;
-  logger.info(`addTransactionURL : ${addTransactionURL}`);
-  const transactionData = parameters;
-  logger.info(transactionData);
-  console.log(transactionData);
-  console.log("=============");
-  const response = await instance.post(
-    addTransactionURL,
-    transactionData
-  );
-  logger.info(`=== add done ===`);
-  logger.info(`${response}`);
-  logger.info(`End Add Transaction To server...`);
-  return response;
-};
-
-const updateTransactionDetails = async (parameters, chanId) => {
-  logger.info(`Start Update Transaction To server...`);
-  const addTransactionURL = `${SERVER_URL}/transactions/update/${chanId}`;
-  logger.info(`addTransactionURL : ${addTransactionURL}`);
-  const transactionData = parameters;
-  logger.info(transactionData);
-  const response = await instance.post(
-    addTransactionURL,
-    transactionData
-  );
-  logger.info(`=== update done ===`);
-  logger.info(`${response}`);
-  logger.info(`End Update Transaction To server...`);
-  return response;
-};
-
 exports.cancelPaymentTransaction = async (req, res, next) => {
   logger.info(`Get Cancel Payment Transaction Request Initated`);
   const getCancelPaymentTransactionData = {
@@ -377,7 +348,6 @@ exports.getApiInfo = async (req, res, next) => {
   }
 };
 
-
 exports.apiInfo = async () => {
   logger.info(`Get Linked getApiInfo Request Initiated`);
   const cardReaderInfo = {
@@ -397,4 +367,54 @@ exports.apiInfo = async () => {
     logger.error(`Get Linked getApiInfo Request failed: ${error?.message}`);
     throw error;
   }
+};
+
+const getDeviceToken = async (parameters) => {
+  logger.info(`Start get device token from server...`);
+  const tokenURL = `${SERVER_URL}/auth/login`;
+  logger.info(`TokenURL : ${tokenURL}`);
+  const authData = parameters;
+  logger.info(`Auth Data ${authData}`);
+  console.log("=============");
+  const response = await instance.post(
+    tokenURL,
+    authData
+  );
+  logger.info(`${response}`);
+  logger.info(`End get device token from server...`);
+  return response;
+};
+
+const addTransactionDetails = async (parameters) => {
+  logger.info(`Start Add Transaction To server...`);
+  const addTransactionURL = `${SERVER_URL}/transactions/add`;
+  logger.info(`addTransactionURL : ${addTransactionURL}`);
+  const transactionData = parameters;
+  logger.info(transactionData);
+  console.log(transactionData);
+  console.log("=============");
+  const response = await instance.post(
+    addTransactionURL,
+    transactionData
+  );
+  logger.info(`=== add done ===`);
+  logger.info(`${response}`);
+  logger.info(`End Add Transaction To server...`);
+  return response;
+};
+
+const updateTransactionDetails = async (parameters, chanId) => {
+  logger.info(`Start Update Transaction To server...`);
+  const addTransactionURL = `${SERVER_URL}/transactions/update/${chanId}`;
+  logger.info(`addTransactionURL : ${addTransactionURL}`);
+  const transactionData = parameters;
+  logger.info(transactionData);
+  const response = await instance.post(
+    addTransactionURL,
+    transactionData
+  );
+  logger.info(`=== update done ===`);
+  logger.info(`${response}`);
+  logger.info(`End Update Transaction To server...`);
+  return response;
 };

@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function login( Request $request){
         $rules = [
-            "CustomerID" => "required",
+            "deviceID" => "required",
         ];
         $validate = Validator::make($request->all(), $rules);
         if($validate->fails()){
@@ -30,10 +30,10 @@ class AuthController extends Controller
         } else {
             try {
                 $data = [];
-                $customerID = $request->input('CustomerID');
+                $deviceID = $request->input('deviceID');
                 $devices = DB::connection('mysql')
                     ->table('devices')
-                    ->where('deviceAuthID', '=', $customerID);
+                    ->where('deviceAuthID', '=', $deviceID);
                 if($devices->count() > 0){
                     $token = $this->generateJWT($devices->first());
                     // $cookie = cookie('jwt', $token, 60*24);
