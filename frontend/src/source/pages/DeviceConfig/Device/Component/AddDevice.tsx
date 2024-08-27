@@ -20,6 +20,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
         deviceName: '',
         deviceTag: '',
         macAddress: '',
+        deviceAuthID: '',
         serialNumber: '',
         firmwareVersion: '',
         hardwareModelVersion: '',
@@ -121,6 +122,17 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
             isValid = false;
         }
 
+        
+        if(formData?.deviceAuthID){
+            if(formData?.deviceAuthID == "" || formData?.deviceAuthID?.trim() == ""){
+                error['deviceAuthID'] = "Device Auth ID is required";
+                isValid = false;
+            }
+        } else {
+            error['deviceAuthID'] = "Device Auth ID is required";
+            isValid = false;
+        }
+
         if(formData){
             if(formData.macAddress == "" || formData.macAddress.trim() == ""){
                 error['macAddress'] = "MAC Address is required";
@@ -183,7 +195,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
 
     const HandleAddLocation = async () => {
         if(HandleValid()){
-            let { deviceCategory, deviceName, deviceTag, macAddress, serialNumber, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectedOnGrid, dataPushUrl } = formData;
+            let { deviceCategory, deviceName, deviceTag, macAddress, deviceAuthID, serialNumber, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectedOnGrid, dataPushUrl } = formData;
 
             const Data = new FormData();
 
@@ -191,6 +203,9 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
             Data.append('deviceName', deviceName);
             Data.append('deviceTag', deviceTag);
             Data.append('macAddress', macAddress);
+            
+            Data.append('deviceAuthID', deviceAuthID);
+            
             Data.append('serialNumber', serialNumber);
             Data.append('firmwareVersion', firmwareVersion);
             Data.append('hardwareModelVersion', hardwareModelVersion);
@@ -269,7 +284,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
         });
 
         if(response.data?.status == "success"){
-            let { categoryID, deviceCategory, deviceName, deviceTag, macAddress, serialNumber, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectionStatus, binFileName, dataPushUrl, disconnectedOnGrid } = response.data.data;
+            let { categoryID, deviceCategory, deviceName, deviceTag, macAddress, deviceAuthID, serialNumber, firmwareVersion, hardwareModelVersion, pollingPriority, nonPollingPriority, disconnectionStatus, binFileName, dataPushUrl, disconnectedOnGrid } = response.data.data;
 
             let data = {
                 deviceCategory: {
@@ -279,6 +294,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
                 deviceName: deviceName,
                 deviceTag: deviceTag,
                 macAddress: macAddress,
+                deviceAuthID: deviceAuthID,
                 serialNumber: serialNumber,
                 firmwareVersion: firmwareVersion,
                 hardwareModelVersion: hardwareModelVersion,
@@ -310,6 +326,7 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
                     deviceName: '',
                     deviceTag: '',
                     macAddress: '',
+                    deviceAuthID: '',
                     firmwareVersion: '',
                     hardwareModelVersion: '',
                     pollingPriority: '',
@@ -408,17 +425,17 @@ const AddDevice = ({ OpenModal, setOpenModal, LocationData, OnSuccess }: any) =>
                                                 </div>
                                             </div>
                                             <div className="flex flex-row w-full gap-4">
-                                                {/* <div className='w-full'>
-                                                    <label htmlFor="deviceTag" className="dark:text-white">Device Tag *</label>
+                                                <div className='w-full'>
+                                                    <label htmlFor="deviceAuthID" className="dark:text-white">Device AuthID *</label>
                                                     <input
                                                         type="text"
                                                         className='form-input dark:text-white'
-                                                        name="deviceTag"
+                                                        name="deviceAuthID"
                                                         onChange={handleChange}
-                                                        value={formData.deviceTag}
+                                                        value={formData.deviceAuthID}
                                                     />
-                                                    {formError.deviceTag && <div className='text-sm text-danger'>{formError.deviceTag}</div>}
-                                                </div> */}
+                                                    {formError.deviceAuthID && <div className='text-sm text-danger'>{formError.deviceAuthID}</div>}
+                                                </div>
                                                 <div className='w-full'>
                                                     <label htmlFor="macAddress" className="dark:text-white">MAC Address *</label>
                                                     <input
