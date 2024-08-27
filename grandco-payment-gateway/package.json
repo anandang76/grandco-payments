@@ -1,17 +1,35 @@
 {
   "name": "grandco",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Grandco payment gateway application",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "build": "nexe -i server.js -r public  --build -o dist/grandco.exe  --verbose"
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "ca.granco.payment",
+    "productName": "GrandCo Payment App",
+    "files": [
+      "config/**/*",
+      "backend/**/*",
+      "public/**/*",
+      "main.js",
+      "package.json",
+      "preload.js"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": "nsis"
+    }
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.6.2",
+    "axios": "^1.7.5",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -21,6 +39,22 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "electron": "^32.0.1",
+    "electron-builder": "^24.13.3",
+    "nodemon": "^3.1.0",
+    "pkg": "^5.8.1"
+  },
+  "pkg": {
+    "assets": [
+      "public/**/*",
+      "backend/**/*"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "output": "dist/grandco.exe",
+    "exclude": [
+      "node_modules/axios/**"
+    ]
   }
 }

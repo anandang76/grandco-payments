@@ -1,8 +1,10 @@
+const path = require('path');
 const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 const https = require("https");
 const { logger } = require("../utils/logger");
-var config = require("../../config/config")();
+// var config = require("../../config/config")();
+var config = require(path.join(__dirname, './../../config/config'))();
 
 const instance = axios.create({
   httpsAgent: new https.Agent({

@@ -1,0 +1,28 @@
+backend =>  Complete backend code on laravel PHP
+frontend => react JS
+cronfiles => all backend cron job updates in core PHP
+simulator => simulator code HTML+PHP
+
+db =>  db basic configurations for 4 databases
+	aqms => main database user login functions
+	aqmsConfigCC => Config database -> replace CC with company code  for eg: KW for kewaunee AI for aidealabs etc., 
+	aqmsTmsCC=> Transaction management database -> replace CC with company code
+	aqmsReportCC=> Reporting database -> replace CC with company code
+dbuser => create user with aqms with all grant privilige for above 4 databases
+dbdump => DB basic dump file for all users.  Default user sysadmin added to the table for login. 
+		aqmx@aidealabs.com -> 123456 =>  login and change the password to desired password. 
+
+
+cd backend
+composer install
+composer update
+
+php artisan key:generate
+
+cd frontend
+npm install
+npm run dev - for development
+for production build and deploy
+
+configure .env file in backend and database.php in laravel.
+
