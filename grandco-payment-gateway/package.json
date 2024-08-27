@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "nexe -i server.js -r public  --build -o dist/grandco.exe"
+    "build": "pkg server.js --out dist/grandco.exe --ignore 'node_modules/axios/**'"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +22,16 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
+  },
+  "pkg": {
+    "assets": [
+      "node_modules/axios/dist/node/*.cjs"
+    ],
+    "ignore": [
+      "node_modules/axios/**"
+    ],
+    "targets": [
+      "node18-win-arm64"
+    ]
   }
 }
