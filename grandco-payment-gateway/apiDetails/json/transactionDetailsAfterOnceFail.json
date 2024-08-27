@@ -1,0 +1,91 @@
+{
+  "success": true,
+  "data": {
+    "paymentGatewayCommand": {
+      "eventQueue": [
+        {
+          "timeStamp": "1721389171807",
+          "statusDetails": "SMARTCARD_PROCESSING_ONLINE"
+        },
+        {
+          "timeStamp": "1721389174474",
+          "statusDetails": "CARD_REMOVE_PROMPTED"
+        },
+        {
+          "timeStamp": "1721389174475",
+          "statusDetails": "CARD_READER_TRANSACTION_COMPLETED"
+        },
+        {
+          "timeStamp": "1721389175302",
+          "statusDetails": "TRANSACTION_COMPLETED"
+        },
+        {
+          "timeStamp": "1721389177779",
+          "statusDetails": "SMARTCARD_REMOVED"
+        }
+      ],
+      "paymentTransactionData": {
+        "date": "Fri Jul 19 07:39:29 IST 2024",
+        "amountAuthorized": {
+          "value": 1000,
+          "currencyCode": "CAD"
+        },
+        "lastName": "UAT CAN",
+        "iccArc": "00",
+        "cardScheme": "DISCOVER",
+        "creditSurchargeStatus": "NOT_APPLIED",
+        "avsResponseCode": "UNSET",
+        "iccAtc": "0017",
+        "iccIad": "0106A01000006000",
+        "expDate": "0526",
+        "iccAppName": "Discover",
+        "gratuityAmount": {
+          "value": 0,
+          "currencyCode": "CAD"
+        },
+        "iccTsi": "6800",
+        "result": "APPROVED",
+        "tenderType": "CARD",
+        "approved": "yes",
+        "id": "190724O2C-34407113-5733-45E6-95DD-AB0B6B304B36",
+        "state": "UNKNOWN",
+        "amount": {
+          "value": 1000,
+          "currencyCode": "CAD"
+        },
+        "authCode": "354443",
+        "maskedPan": "************0844",
+        "cardType": "CREDIT",
+        "iccTvr": "8000208000",
+        "oarData": "010001312207191139290000062005900000610025354443420111013122",
+        "tax": {
+          "value": 0,
+          "currencyCode": "CAD"
+        },
+        "transactionType": "SALE",
+        "iccCvmr": "NO_CVM_REQUIRED",
+        "firstName": "Test Card 15      ",
+        "iccCsn": "01",
+        "ps2000Data": "D71907393079529450",
+        "iccMode": "ICC_MODE",
+        "isFallback": false,
+        "accountBalance": {
+          "value": 0,
+          "currencyCode": "CAD"
+        },
+        "iccAc": "C85BA4FAAB76B28C",
+        "cardEntryType": "EMV_CONTACT",
+        "iccAid": "A0000001523010",
+        "errors": []
+      },
+      "completed": true,
+      "chanId": "fdc9419b-1cc5-4ee4-b057-c175939ab2e1",
+      "warnings": []
+    }
+  },
+  "updateTransaction": {
+    "status": "success",
+    "message": "Updated successfully",
+    "data": "APPROVED"
+  }
+}

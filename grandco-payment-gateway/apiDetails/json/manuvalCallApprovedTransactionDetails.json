@@ -1,0 +1,79 @@
+{
+  "paymentGatewayCommand": {
+    "eventQueue": [
+      {
+        "timeStamp": "1721389431903",
+        "statusDetails": "CARD_READER_TRANSACTION_STARTED"
+      },
+      {
+        "timeStamp": "1721389432356",
+        "statusDetails": "CARD_ENTRY_PROMPTED"
+      },
+      {
+        "timeStamp": "1721389555787",
+        "statusDetails": "ZIP_CODE_ENTRY_PROMPTED"
+      },
+      {
+        "timeStamp": "1721389562655",
+        "statusDetails": "PAYMENT_TYPE_SELECTION_COMPLETED"
+      },
+      {
+        "timeStamp": "1721389562680",
+        "statusDetails": "ONLINE_AUTHORISATION"
+      },
+      {
+        "timeStamp": "1721389569999",
+        "statusDetails": "CARD_READER_TRANSACTION_COMPLETED"
+      },
+      {
+        "timeStamp": "1721389569999",
+        "statusDetails": "TRANSACTION_COMPLETED"
+      }
+    ],
+    "paymentTransactionData": {
+      "date": "Fri Jul 19 07:46:00 IST 2024",
+      "amountAuthorized": {
+        "value": 2000,
+        "currencyCode": "CAD"
+      },
+      "cardScheme": "DISCOVER",
+      "creditSurchargeStatus": "NOT_APPLIED",
+      "avsResponseCode": "AVS_NOT_AVAILABLE",
+      "expDate": "0526",
+      "gratuityAmount": {
+        "value": 0,
+        "currencyCode": "CAD"
+      },
+      "result": "APPROVED",
+      "tenderType": "CARD",
+      "approved": "yes",
+      "id": "190724C44-5E84290F-E342-439B-AFA2-247B3827352E",
+      "state": "UNKNOWN",
+      "amount": {
+        "value": 2000,
+        "currencyCode": "CAD"
+      },
+      "authCode": "354523",
+      "maskedPan": "************0844",
+      "cardType": "CREDIT",
+      "oarData": "010001312407191146000000062005900000610025354523420111013124",
+      "tax": {
+        "value": 0,
+        "currencyCode": "CAD"
+      },
+      "avsResponse": "R",
+      "transactionType": "SALE",
+      "ps2000Data": "D71907460179537900",
+      "isFallback": false,
+      "accountBalance": {
+        "value": 0,
+        "currencyCode": "CAD"
+      },
+      "cardEntryType": "MANUALLY_ENTERED",
+      "errors": []
+    },
+    "completed": true,
+    "chanId": "b07aab29-58d7-42bb-91ca-3bbdd0e626ab",
+    "warnings": []
+  }
+}

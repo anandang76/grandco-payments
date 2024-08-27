@@ -1,0 +1,127 @@
+{
+  "success": true,
+  "data": {
+    "paymentGatewayCommand": {
+      "eventQueue": [
+        {
+          "timeStamp": "1721388719037",
+          "statusDetails": "CARD_READER_TRANSACTION_STARTED"
+        },
+        {
+          "timeStamp": "1721388719615",
+          "statusDetails": "CARD_ENTRY_PROMPTED"
+        },
+        {
+          "timeStamp": "1721388771634",
+          "statusDetails": "CARD_READ_ERROR"
+        },
+        {
+          "timeStamp": "1721388772061",
+          "statusDetails": "BAD_CARD_ENTRY_PROMPTED"
+        },
+        {
+          "timeStamp": "1721388777102",
+          "statusDetails": "SMARTCARD_INSERTED"
+        },
+        {
+          "timeStamp": "1721388777433",
+          "statusDetails": "SMARTCARD_PROCESSING"
+        },
+        {
+          "timeStamp": "1721388777864",
+          "statusDetails": "LANGUAGE_SELECTED_AUTOMATICALLY"
+        },
+        {
+          "timeStamp": "1721388777864",
+          "statusDetails": "APPLICATION_SELECTED_AUTOMATICALLY"
+        },
+        {
+          "timeStamp": "1721388779023",
+          "statusDetails": "PIN_ENTRY_STARTED"
+        },
+        {
+          "timeStamp": "1721388794741",
+          "statusDetails": "SMARTCARD_PROCESSING_ONLINE"
+        },
+        {
+          "timeStamp": "1721388796999",
+          "statusDetails": "CARD_REMOVE_PROMPTED"
+        },
+        {
+          "timeStamp": "1721388797011",
+          "statusDetails": "CARD_READER_TRANSACTION_COMPLETED"
+        },
+        {
+          "timeStamp": "1721388798016",
+          "statusDetails": "TRANSACTION_COMPLETED"
+        },
+        {
+          "timeStamp": "1721388799503",
+          "statusDetails": "SMARTCARD_REMOVED"
+        }
+      ],
+      "paymentTransactionData": {
+        "date": "Fri Jul 19 07:33:12 IST 2024",
+        "amountAuthorized": {
+          "value": 5000,
+          "currencyCode": "CAD"
+        },
+        "lastName": "UAT CAN",
+        "iccArc": "00",
+        "cardScheme": "DISCOVER",
+        "creditSurchargeStatus": "NOT_APPLIED",
+        "avsResponseCode": "UNSET",
+        "iccAtc": "0016",
+        "iccIad": "0106A01403000000",
+        "expDate": "0526",
+        "iccAppName": "Discover",
+        "gratuityAmount": {
+          "value": 0,
+          "currencyCode": "CAD"
+        },
+        "iccTsi": "6800",
+        "result": "APPROVED",
+        "tenderType": "CARD",
+        "approved": "yes",
+        "id": "190724C45-5D8F14EA-49A8-438C-B79B-99EBD9D4A0DE",
+        "state": "UNKNOWN",
+        "amount": {
+          "value": 5000,
+          "currencyCode": "CAD"
+        },
+        "authCode": "354369",
+        "maskedPan": "************0844",
+        "cardType": "CREDIT",
+        "iccTvr": "8000008000",
+        "oarData": "010001311607191133120000062005900000610025354369420111013116",
+        "tax": {
+          "value": 0,
+          "currencyCode": "CAD"
+        },
+        "transactionType": "SALE",
+        "iccCvmr": "PIN",
+        "firstName": "Test Card 15      ",
+        "iccCsn": "01",
+        "ps2000Data": "D71907331479521250",
+        "iccMode": "ICC_MODE",
+        "isFallback": false,
+        "accountBalance": {
+          "value": 0,
+          "currencyCode": "CAD"
+        },
+        "iccAc": "61EB8ED1EB858E4E",
+        "cardEntryType": "EMV_CONTACT",
+        "iccAid": "A0000001523010",
+        "errors": []
+      },
+      "completed": true,
+      "chanId": "7c3ed7b7-39be-4074-95d0-011714825140",
+      "warnings": []
+    }
+  },
+  "updateTransaction": {
+    "status": "success",
+    "message": "Updated successfully",
+    "data": "APPROVED"
+  }
+}

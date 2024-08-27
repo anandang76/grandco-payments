@@ -1,0 +1,93 @@
+{
+  "success": true,
+  "data": {
+    "paymentGatewayCommand": {
+      "eventQueue": [
+        {
+          "timeStamp": "1721389431782",
+          "statusDetails": "STARTING"
+        }
+      ],
+      "completed": false,
+      "chanId": "b07aab29-58d7-42bb-91ca-3bbdd0e626ab",
+      "warnings": []
+    }
+  },
+  "addTransaction": {
+    "status": "success",
+    "message": "Added successfully",
+    "data_arr": {
+      "customerID": "cd7db52f-af90-448a-ab3d-5e1948948d81",
+      "transactionID": "b07aab29-58d7-42bb-91ca-3bbdd0e626ab",
+      "chanID": "b07aab29-58d7-42bb-91ca-3bbdd0e626ab",
+      "deviceID": 104,
+      "cardReaderName": "L3000-18967028",
+      "paymentGatewayID": "39c40d7f-c862-40f4-a548-361507fecddc",
+      "transactionType": "SALE",
+      "amount": 2000,
+      "currencyCode": "CAD",
+      "expDate": "2024-07-19 11:43:48",
+      "result": "PENDING"
+    },
+    "data": {
+      "paymentInfo": {
+        "paymentGatewayId": "39c40d7f-c862-40f4-a548-361507fecddc",
+        "transactionType": "SALE",
+        "baseTransactionAmount": {
+          "value": 2000,
+          "currencyCode": "CAD"
+        },
+        "tenderType": "CARD",
+        "cardType": null,
+        "cardEntryTypes": [
+          "MANUALLY_ENTERED"
+        ],
+        "isTaxInclusive": false,
+        "partialApprovalAllowed": true,
+        "taxAmounts": [
+          {
+            "value": 0,
+            "currencyCode": "CAD"
+          }
+        ],
+        "discountAmounts": null
+      },
+      "cardReaderInfo": {
+        "name": "L3000-18967028",
+        "osVersion": "03",
+        "pciVersion": "0.0.0.0.00.00-0000",
+        "entryModes": [
+          "SWIPE",
+          "MSD_PROXIMITY",
+          "MANUALLY_ENTERED",
+          "EMV_CONTACT",
+          "EMV_PROXIMITY",
+          "MOBILE"
+        ],
+        "manufacturer": "INGNAR",
+        "options": [
+          "GRATUITY"
+        ],
+        "sdkVersion": "5.31.9 with iConnect 1.2.15-0",
+        "sslCertificateMarker": "20230710",
+        "capableOfPairing": false,
+        "elavonConfigVersion": "L3000_ELAVON_CA_EMV_031",
+        "paymentAppVersion": "5.08.08-0003",
+        "paymentAppName": "Unified Payment Platform",
+        "securityModuleVersion": "0503",
+        "countSignatures": "00",
+        "countMsrSwipes": "0162",
+        "manufactureDate": "2020-12-31",
+        "countBadTrack1Reads": "00",
+        "countBadTrack3Reads": "00",
+        "countBadTrack2Reads": "00",
+        "model": "L3000",
+        "serialNumber": "R7320365LT001064",
+        "countReboots": "0161",
+        "emvCardReader": true,
+        "capableOfSignature": false
+      },
+      "chanId": "b07aab29-58d7-42bb-91ca-3bbdd0e626ab"
+    }
+  }
+}

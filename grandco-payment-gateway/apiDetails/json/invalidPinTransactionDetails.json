@@ -1,0 +1,48 @@
+{
+  "success": true,
+  "data": {
+    "paymentGatewayCommand": {
+      "eventQueue": [
+        {
+          "timeStamp": "1721389081497",
+          "statusDetails": "CARD_READER_TRANSACTION_STARTED"
+        },
+        {
+          "timeStamp": "1721389081965",
+          "statusDetails": "CARD_ENTRY_PROMPTED"
+        },
+        {
+          "timeStamp": "1721389100419",
+          "statusDetails": "SMARTCARD_INSERTED"
+        },
+        {
+          "timeStamp": "1721389100744",
+          "statusDetails": "SMARTCARD_PROCESSING"
+        },
+        {
+          "timeStamp": "1721389101101",
+          "statusDetails": "LANGUAGE_SELECTED_AUTOMATICALLY"
+        },
+        {
+          "timeStamp": "1721389101101",
+          "statusDetails": "APPLICATION_SELECTED_AUTOMATICALLY"
+        },
+        {
+          "timeStamp": "1721389102261",
+          "statusDetails": "PIN_ENTRY_STARTED"
+        }
+      ],
+      "completed": false,
+      "chanId": "fdc9419b-1cc5-4ee4-b057-c175939ab2e1",
+      "warnings": []
+    }
+  },
+  "updateTransaction": {
+    "status": "error",
+    "message": {
+      "paymentInfo": [
+        "The payment info field is required."
+      ]
+    }
+  }
+}

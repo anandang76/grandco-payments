@@ -1,0 +1,99 @@
+{
+  "preferredReader": "none",
+  "preferredPrinter": "none",
+  "cardReaderInfo": {
+    "name": "L3000-18967028",
+    "osVersion": "03",
+    "pciVersion": "0.0.0.0.00.00-0000",
+    "entryModes": [
+      "SWIPE",
+      "MSD_PROXIMITY",
+      "MANUALLY_ENTERED",
+      "EMV_CONTACT",
+      "EMV_PROXIMITY",
+      "MOBILE"
+    ],
+    "manufacturer": "INGNAR",
+    "options": [
+      "GRATUITY"
+    ],
+    "sdkVersion": "5.31.9 with iConnect 1.2.15-0",
+    "sslCertificateMarker": "20230710",
+    "capableOfPairing": false,
+    "elavonConfigVersion": "L3000_ELAVON_CA_EMV_031",
+    "paymentAppVersion": "5.08.08-0003",
+    "paymentAppName": "Unified Payment Platform",
+    "securityModuleVersion": "0503",
+    "countSignatures": "00",
+    "countMsrSwipes": "0156",
+    "manufactureDate": "2020-12-31",
+    "countBadTrack1Reads": "00",
+    "countBadTrack3Reads": "00",
+    "countBadTrack2Reads": "00",
+    "model": "L3000",
+    "serialNumber": "R7320365LT001064",
+    "countReboots": "0161",
+    "emvCardReader": true,
+    "capableOfSignature": false
+  },
+  "preferredCheckReader": "none",
+  "csdkInfo": [
+    {
+      "name": "commerce-core",
+      "version": "6.4.0.16"
+    },
+    {
+      "name": "commerce-converge",
+      "version": "6.4.0.16"
+    },
+    {
+      "name": "commerce-desktop-converge",
+      "version": "6.4.0.16"
+    },
+    {
+      "name": "ingenico-rba",
+      "version": "6.4.0.16"
+    },
+    {
+      "name": "ingenico-rba-wrapper",
+      "version": "6.4.0"
+    },
+    {
+      "name": "RBA",
+      "version": "5.31.9 with iConnect 1.2.15-0"
+    },
+    {
+      "name": "roam-rua",
+      "version": "6.4.0.16"
+    },
+    {
+      "name": "roam-rua-wrapper",
+      "version": "6.4.0"
+    },
+    {
+      "name": "RUA",
+      "version": "0.9.0.0"
+    },
+    {
+      "name": "StarMicronics Printer",
+      "version": "2.1.0"
+    },
+    {
+      "name": "rdm-check-reader-wrapper",
+      "version": "6.4.0"
+    }
+  ],
+  "conconInfo": {
+    "version": "6.4.0.10"
+  },
+  "completed": true,
+  "cwsInfo": {
+    "port": "9790",
+    "osName": "Windows 11",
+    "osArch": "x86",
+    "osVersion": "10.0",
+    "cwsVersion": "6.4.0.8",
+    "jvmImplementationVersion": "25.372-b07",
+    "jvmSpecificationVersion": "1.8"
+  }
+}

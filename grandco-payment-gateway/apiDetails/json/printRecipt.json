@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "data": {
+    "paymentGatewayCommand": {
+      "eventQueue": [],
+      "completed": false,
+      "chanId": "26244021-5fcb-441b-b144-98264ee4f064",
+      "warnings": []
+    }
+  }
+}
