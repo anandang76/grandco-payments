@@ -29,12 +29,12 @@ const Header = () => {
     let UserName = "";
     let AppData: any = {};
 
-    if(userDetails){
+    if (userDetails) {
         CompanyName = JSON.parse(userDetails).companyName;
         UserName = JSON.parse(userDetails).name;
     }
 
-    if(AppDetails){
+    if (AppDetails) {
         AppData = JSON.parse(AppDetails);
     }
 
@@ -53,7 +53,7 @@ const Header = () => {
             email: JSON.parse(userDetails).email
         });
 
-        if(response.data.status == "success"){
+        if (response.data.status == "success") {
             sessionStorage.removeItem('accessToken');
             localStorage.removeItem('userDetails');
             localStorage.removeItem('devices');
@@ -129,10 +129,9 @@ const Header = () => {
                         <div>
                             {themeConfig.theme === 'light' ? (
                                 <button
-                                    className={`${
-                                        themeConfig.theme === 'light' &&
+                                    className={`${themeConfig.theme === 'light' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
-                                    }`}
+                                        }`}
                                     onClick={() => {
                                         dispatch(toggleTheme('dark'));
                                     }}
@@ -144,10 +143,9 @@ const Header = () => {
                             )}
                             {themeConfig.theme === 'dark' && (
                                 <button
-                                    className={`${
-                                        themeConfig.theme === 'dark' &&
+                                    className={`${themeConfig.theme === 'dark' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
-                                    }`}
+                                        }`}
                                     onClick={() => {
                                         dispatch(toggleTheme('light'));
                                     }}
@@ -157,10 +155,9 @@ const Header = () => {
                             )}
                             {themeConfig.theme === 'system' && (
                                 <button
-                                    className={`${
-                                        themeConfig.theme === 'system' &&
+                                    className={`${themeConfig.theme === 'system' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
-                                    }`}
+                                        }`}
                                     onClick={() => {
                                         dispatch(toggleTheme('light'));
                                     }}
@@ -201,17 +198,16 @@ const Header = () => {
                                             </span>
                                         </div>
                                     </li>
-                                    <li className='cursor-pointer' onClick={HandleDownloadUserManual}>
+                                    {/* <li className='cursor-pointer' onClick={HandleDownloadUserManual}>
                                         <div className="flex gap-2 py-1">
                                             <span className="px-3 dark:text-gray-500">
                                                 <div className="font-semibold text-sm dark:text-white">User Manual</div>
                                             </span>
                                             <span>
-                                                {/* <div>{AppData?.createdAt.split(" ")[0]}</div> */}
                                                 <div className='dark:text-white-light/90'>Click here to view</div>
                                             </span>
                                         </div>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </Dropdown>
                         </div>
