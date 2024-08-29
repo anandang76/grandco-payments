@@ -15,6 +15,9 @@ import IconBellBing from '@/components/Icon/IconBellBing';
 import moment from 'moment';
 import IconAlarm from '@/components/Icon/IconAlarm';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
@@ -57,14 +60,14 @@ const SensorComponent = ({ params }: any) => {
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({ columnAccessor: "id", direction: 'asc' });
 
 
-    
+
     const GetData = async () => {
         let response = await GetSensor(params);
 
         let responseData: any = {};
         let responseAlerts: Array<any> = [];
 
-        if(response?.data?.status == "success"){
+        if (response?.data?.status == "success") {
             response = response.data;
 
             responseData = response.data;
@@ -120,7 +123,7 @@ const SensorComponent = ({ params }: any) => {
     // }, [params])
 
     useEffect(() => {
-        if(callSensor){
+        if (callSensor) {
             GetData();
             runAtNextSeventhSecond();
             setCallSensor(false);
@@ -141,147 +144,172 @@ const SensorComponent = ({ params }: any) => {
         <>
             <div className="py-5">
                 <div className="py-2 panel">
-            <div className="datatables">
-                <DataTable
-                    className={`whitespace-nowrap table-hover !text-center`}
-                    records={recordsData}
-                    columns={[
-                        {
-                            accessor: 'id',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 dark:text-white',
-                            title: "ID",
-                            sortable: true
-                        },
-                        // {
-                        //     accessor: 'alertType',
-                        //     titleClassName: 'title-center dark-datatable-title-color',
-                        //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                        //     title: 'Transaction ID',
-                        //     render: ((record: any) => {
-                        //         return <div>{record?.transactionID}</div>
-                        //     }),
-                        //     sortable: true
-                        // },
-                        {
-                            accessor: 'alertType',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'paymentGatewayID',
-                            render: ((record: any) => {
-                                return <div>{record?.paymentGatewayID}</div>
-                            }),
-                            sortable: true
-                        },
-                        {
-                            accessor: 'alertType',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'Name',
-                            render: ((record: any) => {
-                                return <div>{(record?.firstName || "") +" "+ (record?.lastName || "")}</div>
-                            }),
-                            sortable: true
-                        },
-                        {
-                            accessor: 'alertType',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'Amount',
-                            render: ((record: any) => {
-                                return <div className='font-bold'>${record?.amount/100}</div>
-                            }),
-                            sortable: true
-                        },
-                        {
-                            accessor: 'alertType',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'Card',
-                            render: ((record: any) => {
-                                return <div>{record?.cardScheme}</div>
-                            }),
-                            sortable: true
-                        },
-                        {
-                            accessor: 'alertType',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'Card Type',
-                            render: ((record: any) => {
-                                return <div>{record?.cardType}</div>
-                            }),
-                            sortable: true
-                        },
-                        {
-                            accessor: 'alertType',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'Type',
-                            render: ((record: any) => {
-                                return <div>{record?.transactionType}</div>
-                            }),
-                            sortable: true
-                        },
-                        {
-                            accessor: 'alertType',
-                            titleClassName: 'title-center dark-datatable-title-color',
-                            cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                            title: 'Status',
-                            render: ((record: any) => {
-                                return (
-                                    <>
-                                        {record?.result == "PENDING" && <div className='font-bold text-warning'>{record?.result}</div>}
-                                        {record?.result == "APPROVED" && <div className='font-bold text-success'>{record?.result}</div>}
+                    <div className="datatables">
+                        <DataTable
+                            className={`whitespace-nowrap table-hover !text-center`}
+                            records={recordsData}
+                            columns={[
+                                {
+                                    accessor: 'id',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 dark:text-white',
+                                    title: "ID",
+                                    sortable: true
+                                },
+                                // {
+                                //     accessor: 'alertType',
+                                //     titleClassName: 'title-center dark-datatable-title-color',
+                                //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                //     title: 'Transaction ID',
+                                //     render: ((record: any) => {
+                                //         return <div>{record?.transactionID}</div>
+                                //     }),
+                                //     sortable: true
+                                // },
+                                {
+                                    accessor: 'updatedAt',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Date',
+                                    render: ((record: any) => {
+                                        return <div>{record?.updatedAt}</div>
+                                    }),
+                                    sortable: true
+                                },
+                                {
+                                    accessor: 'alertType',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Payment Gateway ID',
+                                    render: ((record: any) => {
+                                        return (<div className='flex justify-between items-center align-center'>
+                                            <Tippy
 
-                                    </>
-                                )
-                            }),
-                            sortable: true
-                        },
-                        
-                        // {
-                        //     accessor: 'aqiValue',
-                        //     titleClassName: 'title-center dark-datatable-title-color',
-                        //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                        //     title: 'AQI Value',
-                        //     sortable: true,
-                        //     render: (current: any) => {
-                        //         let AQI = current.aqiValue ? Number(current.aqiValue).toFixed(0) : "NA";
-                        //         return AQI != 'NA' && Number(AQI) != 0 && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default dark:text-white status-btn border border-gray-400 text-sm  font-bold`}>
-                        //             {AQI}
-                        //         </button>
-                        //     }
-                        // },
-                        // {
-                        //     accessor: 'aqicategory',
-                        //     titleClassName: 'title-center dark-datatable-title-color',
-                        //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                        //     title: 'AQI Category',
-                        //     render: (current: any) => {
-                        //         let value = current.aqicategory ? current.aqicategory : "NA";
-                        //         let bgColor = GetAQIColor(Number(current.aqiValue) > 0 ? current.aqiValue : "NA");
-                        //         return value != "NA" && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default status-btn border dark:text-white text-white text-sm  font-bold`} style={{ backgroundColor: bgColor, border: bgColor }}>
-                        //             {value}
-                        //         </button>
-                        //     },
-                        //     sortable: true
-                        // }
-                    ]}
-                    totalRecords={initialRecords.length}
-                    recordsPerPage={pageSize}
-                    page={page}
-                    onPageChange={(p) => setPage(p)}
-                    recordsPerPageOptions={PAGE_SIZES}
-                    onRecordsPerPageChange={setPageSize}
-                    sortStatus={sortStatus}
-                    onSortStatusChange={setSortStatus}
-                    minHeight={200}
-                    paginationText={({ from, to, totalRecords }) => <div className='dark:text-white'>{`${to} of ${totalRecords}`}</div>}
-                />
-            </div>
-        </div>
-            
+                                                trigger="click"
+                                                content={<div><code>{record?.transactionJson}</code></div>}
+                                                allowHTML={true}
+                                            >
+                                                <button type="button" className='btn-sm p-0' onClick={() => console.log(record?.transactionJson)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
+                                                        <path fill="currentColor" d="M108 84a16 16 0 1 1 16 16a16 16 0 0 1-16-16m128 44A108 108 0 1 1 128 20a108.12 108.12 0 0 1 108 108m-24 0a84 84 0 1 0-84 84a84.09 84.09 0 0 0 84-84m-72 36.68V132a20 20 0 0 0-20-20a12 12 0 0 0-4 23.32V168a20 20 0 0 0 20 20a12 12 0 0 0 4-23.32" />
+                                                    </svg>
+                                                </button>
+                                            </Tippy>
+                                            {record?.paymentGatewayID}</div>
+                                        )
+
+                                    }),
+                                    sortable: true
+                                },
+                                {
+                                    accessor: 'alertType',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Name',
+                                    render: ((record: any) => {
+                                        return <div>{(record?.firstName || "") + " " + (record?.lastName || "")}</div>
+                                    }),
+                                    sortable: true
+                                },
+                                {
+                                    accessor: 'alertType',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Amount',
+                                    render: ((record: any) => {
+                                        return <div className='font-bold'>${record?.amount / 100}</div>
+                                    }),
+                                    sortable: true
+                                },
+                                {
+                                    accessor: 'alertType',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Card',
+                                    render: ((record: any) => {
+                                        return <div>{record?.cardScheme}</div>
+                                    }),
+                                    sortable: true
+                                },
+                                {
+                                    accessor: 'alertType',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Card Type',
+                                    render: ((record: any) => {
+                                        return <div>{record?.cardType}</div>
+                                    }),
+                                    sortable: true
+                                },
+                                {
+                                    accessor: 'alertType',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Type',
+                                    render: ((record: any) => {
+                                        return <div>{record?.transactionType}</div>
+                                    }),
+                                    sortable: true
+                                },
+                                {
+                                    accessor: 'alertType',
+                                    titleClassName: 'title-center dark-datatable-title-color',
+                                    cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                    title: 'Status',
+                                    render: ((record: any) => {
+                                        return (
+                                            <>
+                                                {record?.result == "PENDING" && <div className='font-bold text-warning'>{record?.result}</div>}
+                                                {record?.result == "APPROVED" && <div className='font-bold text-success'>{record?.result}</div>}
+
+                                            </>
+                                        )
+                                    }),
+                                    sortable: true
+                                },
+
+                                // {
+                                //     accessor: 'aqiValue',
+                                //     titleClassName: 'title-center dark-datatable-title-color',
+                                //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                //     title: 'AQI Value',
+                                //     sortable: true,
+                                //     render: (current: any) => {
+                                //         let AQI = current.aqiValue ? Number(current.aqiValue).toFixed(0) : "NA";
+                                //         return AQI != 'NA' && Number(AQI) != 0 && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default dark:text-white status-btn border border-gray-400 text-sm  font-bold`}>
+                                //             {AQI}
+                                //         </button>
+                                //     }
+                                // },
+                                // {
+                                //     accessor: 'aqicategory',
+                                //     titleClassName: 'title-center dark-datatable-title-color',
+                                //     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
+                                //     title: 'AQI Category',
+                                //     render: (current: any) => {
+                                //         let value = current.aqicategory ? current.aqicategory : "NA";
+                                //         let bgColor = GetAQIColor(Number(current.aqiValue) > 0 ? current.aqiValue : "NA");
+                                //         return value != "NA" && <button type="button" className={`p-1 rounded-3xl btn-sm w-28 cursor-default status-btn border dark:text-white text-white text-sm  font-bold`} style={{ backgroundColor: bgColor, border: bgColor }}>
+                                //             {value}
+                                //         </button>
+                                //     },
+                                //     sortable: true
+                                // }
+                            ]}
+                            totalRecords={initialRecords.length}
+                            recordsPerPage={pageSize}
+                            page={page}
+                            onPageChange={(p) => setPage(p)}
+                            recordsPerPageOptions={PAGE_SIZES}
+                            onRecordsPerPageChange={setPageSize}
+                            sortStatus={sortStatus}
+                            onSortStatusChange={setSortStatus}
+                            minHeight={200}
+                            paginationText={({ from, to, totalRecords }) => <div className='dark:text-white'>{`${to} of ${totalRecords}`}</div>}
+                        />
+                    </div>
+                </div>
+
             </div>
         </>
     );

@@ -79,7 +79,7 @@ const Device = () => {
 
     const [page, setPage] = useState(1);
     const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
-    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [pageSize, setPageSize] = useState(20);
     const [initialRecords, setInitialRecords] = useState<Array<any>>([]);
     const [recordsData, setRecordsData] = useState(initialRecords);
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({ columnAccessor: 'deviceName', direction: 'asc' });
@@ -111,7 +111,7 @@ const Device = () => {
     const [eventLogDefaultData, setEventLogDefaultData] = useState<any>({});
 
     const handleNavigate = () => {
-        if(userDetails?.locationID){
+        if (userDetails?.locationID) {
             return;
         }
         navigate('/device-config');
@@ -120,22 +120,22 @@ const Device = () => {
     const HandleBreadCrumb = (location: any) => {
         let { locationID, branchID, facilityID, buildingID, id } = location;
         let url = '/device-config';
-        if(location.zoneName || (location.floorName && userDetails?.floorID) || (location.buildingName && userDetails?.buildingID) || (location.facilityName && userDetails?.facilityID) || (location.branchName && userDetails?.branchID) || (location.locationName && userDetails?.locationID)){
+        if (location.zoneName || (location.floorName && userDetails?.floorID) || (location.buildingName && userDetails?.buildingID) || (location.facilityName && userDetails?.facilityID) || (location.branchName && userDetails?.branchID) || (location.locationName && userDetails?.locationID)) {
             return;
         }
-        if(location.floorName){
+        if (location.floorName) {
             url = `${url}/${locationID}/${branchID}/${facilityID}/${buildingID}/${id}`;
         }
-        if(location.buildingName){
+        if (location.buildingName) {
             url = `${url}/${locationID}/${branchID}/${facilityID}/${id}`;
         }
-        if(location.facilityName){
+        if (location.facilityName) {
             url = `${url}/${locationID}/${branchID}/${id}`;
         }
-        if(location.branchName){
+        if (location.branchName) {
             url = `${url}/${locationID}/${id}`;
         }
-        if(location.locationName){
+        if (location.locationName) {
             url = `${url}/${id}`;
         }
 
@@ -159,11 +159,11 @@ const Device = () => {
             zoneID: zoneID
         });
 
-        if(response.data?.status == "success"){
+        if (response.data?.status == "success") {
             response = response.data;
             setBreadCrumb(response.data.locationDetails);
             setInitialRecords(sortBy(response.data.data, 'deviceName'));
-            let Image = response.data.locationDetails[response.data.locationDetails.length -1];
+            let Image = response.data.locationDetails[response.data.locationDetails.length - 1];
             setImage({
                 showImage: true,
                 image: [Image]
@@ -186,10 +186,10 @@ const Device = () => {
             id: data.deviceID
         });
 
-        if(response?.data?.status == "success"){
+        if (response?.data?.status == "success") {
             let { disconnectionStatus } = response.data.data;
 
-            if(disconnectionStatus == "0"){
+            if (disconnectionStatus == "0") {
                 setFirmwareUpgradationDefaultData(data);
                 setFirmwareUpgradationForm(true);
             } else {
@@ -235,7 +235,7 @@ const Device = () => {
             id: id
         });
 
-        if(response?.data?.status == "success"){
+        if (response?.data?.status == "success") {
             message = response.data.message;
             status = response.data.status;
             setOnSuccess(true);
@@ -253,18 +253,18 @@ const Device = () => {
             confirmButtonText: 'Delete',
             padding: '2em',
             customClass: 'sweet-alerts',
-        }).then((result:any) => {
+        }).then((result: any) => {
             if (result.value) {
                 Delete(id);
             }
         });
     }
 
-    const changeDeviceMode = async (device: any, value: string, fromModal=false) => {
+    const changeDeviceMode = async (device: any, value: string, fromModal = false) => {
         let data: any = params;
         data['deviceID'] = device.id;
 
-        if(!fromModal && value == "firmwareUpgradation"){
+        if (!fromModal && value == "firmwareUpgradation") {
             getDeviceMode(data);
             return;
         }
@@ -275,37 +275,37 @@ const Device = () => {
         let message: string = `Unable to ${value} device`;
         let status: string = 'error';
 
-        if(response?.data?.status == "success"){
+        if (response?.data?.status == "success") {
             message = response.data.message;
             status = response.data.status;
 
-            if(value == 'calibration'){
+            if (value == 'calibration') {
                 setCalibrationDefaultData(data);
                 setCalibrationForm(true);
             }
 
-            if(value == "bumpTest"){
+            if (value == "bumpTest") {
                 setBumpTestDefaultData(data);
                 setBumpTestForm(true);
             }
 
-            if(value == "debug"){
+            if (value == "debug") {
                 setDebugDefaultData(data);
                 setDebugForm(true);
             }
 
-            if(value == "config"){
+            if (value == "config") {
                 setConfigDefaultData(data);
                 setConfigForm(true);
             }
 
-            if(value == "eventLog"){
+            if (value == "eventLog") {
                 setEventLogDefaultData(data);
                 setEventLogForm(true);
             }
 
             setOnSuccess(true);
-        } else if(response?.response?.status == 412){
+        } else if (response?.response?.status == 412) {
             message = response.response.data.message;
             status = response.response.data.status;
             setOnSuccess(true);
@@ -324,7 +324,7 @@ const Device = () => {
             confirmButtonText: 'Yes, continue',
             padding: '2em',
             customClass: 'sweet-alerts',
-        }).then((result:any) => {
+        }).then((result: any) => {
             if (result.value) {
                 changeDeviceMode(device, value);
             }
@@ -347,7 +347,7 @@ const Device = () => {
     }
 
     useEffect(() => {
-        if(OnSuccess){
+        if (OnSuccess) {
             setOnSuccess(false);
             GetData();
         }

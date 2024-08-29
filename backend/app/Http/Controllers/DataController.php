@@ -184,6 +184,7 @@ class DataController extends Controller
                 ->table('transactions')
                 ->select('*' )
                 ->where('deviceID', '=', $deviceID)
+                ->orderBy('id', 'desc')
                 ->get();
        
             $response['data'] = $transaction;
