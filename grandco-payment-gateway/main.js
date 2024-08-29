@@ -2,12 +2,12 @@ const path = require('path');
 const { app, BrowserWindow, Menu } = require('electron');
 const express = require('express');
 const bodyParser = require('body-parser');
-const port = 3000;
+const port = 5000;
 // const Payment = require('./backend/controller/paymentController');
 const Payment = require(path.join(__dirname, 'backend/controller/paymentController'));
 const { logger } = require('./backend/utils/logger');
 
-const isDev = true;
+const isDev = false;
 const isMac = process.platform === 'darwin';
 
 let mainWindow;
@@ -41,9 +41,9 @@ expressApp.listen(port, () => {
 // Main Window
 function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: isDev ? 1000 : 500,
+    width: 1000,
     height: 600,
-    icon: path.join(__dirname, 'assets/icons/Icon_256x256.png'),
+    icon: path.join(__dirname, 'public/appIcon.png'),
     resizable: isDev,
     webPreferences: {
       nodeIntegration: true,

@@ -1,10 +1,19 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const port = 3000;
+const cors = require("cors"); // Import the cors middleware
+const port = 5000;
 require("dotenv").config();
 const Payment = require("./backend/controller/paymentController");
 const { logger } = require("./backend/utils/logger");
+
+app.use(cors({
+  origin: '*', // Allow only this origin
+  methods: ['GET', 'POST'], // Allow only GET and POST requests
+  allowedHeaders: ['Content-Type'], // Allow only specific headers
+}));
+
+
 app.use(express.static("public"));
 
 app.use(bodyParser.json());
