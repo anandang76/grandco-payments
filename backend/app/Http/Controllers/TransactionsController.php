@@ -54,7 +54,7 @@ class TransactionsController extends Controller
     public function addTransactions(Request $request)
     {
         $rules = [
-            "paymentInfo" => "required",
+            "paymentInfo" => "null",
             "cardReaderInfo" => "required",
             "chanId" => "required",
         ];
@@ -82,7 +82,7 @@ class TransactionsController extends Controller
                 $baseTransactionAmount = $paymentInfo['baseTransactionAmount'];
                 $data_arr = array(
                     'customerID' => $customerID,
-                    'transactionID' => $paymentInfo['id'], 
+                    'transactionID' => $request->input('chanId'), 
                     'chanID' => $request->input('chanId'),  
                     'deviceID' => $deviceID, 
                     'cardReaderName' => $deviceName,
@@ -151,7 +151,8 @@ class TransactionsController extends Controller
                             'expDate' => @$paymentInfo['expDate'], 
                             'result' => @$paymentInfo['result'],
                             'transactionJson' => json_encode($paymentInfo),
-                            'payloadJson' => json_encode($payloadJson)
+                            'payloadJson' => json_encode($payloadJson),
+                            'transactionID' => $paymentInfo['id'], 
                         );
                     }else{
                         $data_arr = array(
@@ -162,8 +163,9 @@ class TransactionsController extends Controller
                     $create = $this->configTransactionsConnection->where('chanID', '=', $id)->update($data_arr);
                     $result = new Response([
                         "status" => "success",
-                        "message" => "Updated successfully",
-                        "data" => @$paymentInfo['result']
+                        "message" => "Updated successfully 1",
+                        "data" => @$paymentInfo['result'],
+                        "data_arr" => $data_arr,
                     ]);
                 }else{
                     $result = new Response([
