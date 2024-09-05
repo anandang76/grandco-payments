@@ -54,7 +54,7 @@ class TransactionsController extends Controller
     public function addTransactions(Request $request)
     {
         $rules = [
-            "paymentInfo" => "null",
+            "paymentInfo" => "required",
             "cardReaderInfo" => "required",
             "chanId" => "required",
         ];
@@ -69,7 +69,7 @@ class TransactionsController extends Controller
             try {
                 $data = $request->post();
                 $customerID = $request->header('Customer-ID');
-                $payloadJson = $request->input('payloadJson');
+
                 $cardReaderInfo = $request->input('cardReaderInfo');
                 $deviceName = $cardReaderInfo['name'];
                 $deviceID = null;                
@@ -91,8 +91,7 @@ class TransactionsController extends Controller
                     'amount' => @$baseTransactionAmount['value'], 
                     'currencyCode' => @$baseTransactionAmount['currencyCode'], 
                     'expDate' => date('Y-m-d H:i:s'), 
-                    'result' => "PENDING",
-                    'payloadJson' => json_encode($payloadJson)
+                    'result' => "PENDING"
                 );
                 $create = $this->configTransactionsConnection->insert($data_arr);
                 $result = new Response([
@@ -129,7 +128,6 @@ class TransactionsController extends Controller
             try {
                 $data = $request->post();
                 $paymentInfo = $request->input('paymentInfo');
-                $payloadJson = $request->input('payloadJson');
                 if($paymentInfo){  
                     if($paymentInfo['result'] != "FAILED" ){
                         // $deviceID = null;                
@@ -150,9 +148,7 @@ class TransactionsController extends Controller
                             'creditSurchargeStatus' => @$paymentInfo['creditSurchargeStatus'], 
                             'expDate' => @$paymentInfo['expDate'], 
                             'result' => @$paymentInfo['result'],
-                            'transactionJson' => json_encode($paymentInfo),
-                            'payloadJson' => json_encode($payloadJson),
-                            'transactionID' => $paymentInfo['id'], 
+                            'transactionJson' => json_encode($paymentInfo)
                         );
                     }else{
                         $data_arr = array(
@@ -163,9 +159,8 @@ class TransactionsController extends Controller
                     $create = $this->configTransactionsConnection->where('chanID', '=', $id)->update($data_arr);
                     $result = new Response([
                         "status" => "success",
-                        "message" => "Updated successfully 1",
-                        "data" => @$paymentInfo['result'],
-                        "data_arr" => $data_arr,
+                        "message" => "Updated successfully",
+                        "data" => @$paymentInfo['result']
                     ]);
                 }else{
                     $result = new Response([

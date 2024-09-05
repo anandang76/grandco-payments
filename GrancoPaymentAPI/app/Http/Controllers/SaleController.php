@@ -159,7 +159,8 @@ class SaleController extends Controller
                             'creditSurchargeStatus' => @$paymentInfo['creditSurchargeStatus'], 
                             'expDate' => @$paymentInfo['expDate'], 
                             'result' => @$paymentInfo['result'],
-                            'transactionJson' => json_encode($paymentInfo)
+                            'transactionJson' => json_encode($paymentInfo),
+                            'transactionID' => $paymentInfo['id'], 
                         );
                     }else{
                         $data_arr = array(
@@ -171,7 +172,8 @@ class SaleController extends Controller
                     $result = new Response([
                         "status" => "success",
                         "message" => "Updated successfully",
-                        "data" => @$paymentInfo['result']
+                        "data" => @$paymentInfo['result'],
+                        "data_arr" => $data_arr,    
                     ]);
                 }else{
                     $result = new Response([
