@@ -180,7 +180,7 @@ const SensorComponent = ({ params }: any) => {
                                     accessor: 'alertType',
                                     titleClassName: 'title-center dark-datatable-title-color',
                                     cellsClassName: '!text-center !py-1 w-40 dark:text-white',
-                                    title: 'Payment Gateway ID',
+                                    title: 'Transaction ID',
                                     render: ((record: any) => {
                                         return (<div className='flex justify-between items-center align-center'>
                                             <Tippy
@@ -195,7 +195,7 @@ const SensorComponent = ({ params }: any) => {
                                                     </svg>
                                                 </button>
                                             </Tippy>
-                                            {record?.paymentGatewayID}</div>
+                                            {record?.transactionID}</div>
                                         )
 
                                     }),
@@ -261,7 +261,7 @@ const SensorComponent = ({ params }: any) => {
                                             <>
                                                 {record?.result == "PENDING" && <div className='font-bold text-warning'>{record?.result}</div>}
                                                 {record?.result == "APPROVED" && <div className='font-bold text-success'>{record?.result}</div>}
-
+                                                {!["PENDING", "APPROVED"].includes(record?.result) && <div className='font-bold text-danger'>{record?.result}</div>}
                                             </>
                                         )
                                     }),

@@ -69,7 +69,7 @@ class TransactionsController extends Controller
             try {
                 $data = $request->post();
                 $customerID = $request->header('Customer-ID');
-
+                $payloadJson = $request->input('payloadJson');
                 $cardReaderInfo = $request->input('cardReaderInfo');
                 $deviceName = $cardReaderInfo['name'];
                 $deviceID = null;                
@@ -82,7 +82,7 @@ class TransactionsController extends Controller
                 $baseTransactionAmount = $paymentInfo['baseTransactionAmount'];
                 $data_arr = array(
                     'customerID' => $customerID,
-                    'transactionID' => $request->input('chanId'), 
+                    'transactionID' => $paymentInfo['id'], 
                     'chanID' => $request->input('chanId'),  
                     'deviceID' => $deviceID, 
                     'cardReaderName' => $deviceName,
@@ -91,7 +91,8 @@ class TransactionsController extends Controller
                     'amount' => @$baseTransactionAmount['value'], 
                     'currencyCode' => @$baseTransactionAmount['currencyCode'], 
                     'expDate' => date('Y-m-d H:i:s'), 
-                    'result' => "PENDING"
+                    'result' => "PENDING",
+                    'payloadJson' => json_encode($payloadJson)
                 );
                 $create = $this->configTransactionsConnection->insert($data_arr);
                 $result = new Response([
@@ -128,6 +129,7 @@ class TransactionsController extends Controller
             try {
                 $data = $request->post();
                 $paymentInfo = $request->input('paymentInfo');
+                $payloadJson = $request->input('payloadJson');
                 if($paymentInfo){  
                     if($paymentInfo['result'] != "FAILED" ){
                         // $deviceID = null;                
@@ -148,7 +150,8 @@ class TransactionsController extends Controller
                             'creditSurchargeStatus' => @$paymentInfo['creditSurchargeStatus'], 
                             'expDate' => @$paymentInfo['expDate'], 
                             'result' => @$paymentInfo['result'],
-                            'transactionJson' => json_encode($paymentInfo)
+                            'transactionJson' => json_encode($paymentInfo),
+                            'payloadJson' => json_encode($payloadJson)
                         );
                     }else{
                         $data_arr = array(
