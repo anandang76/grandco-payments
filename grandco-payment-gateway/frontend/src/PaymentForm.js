@@ -21,6 +21,23 @@ function PaymentForm() {
   const [status, setStatus] = useState("");
   const [isConnected, setIsConnected] = useState(false);
 
+  const [selectedOption, setSelectedOption] = useState('option1');
+
+  const handleChangeOption = (event) => {
+    console.log(event.target.value)
+    setSelectedOption(event.target.value);
+    if(event.target.value == 'option1'){
+      setFormData({
+        ...formData,
+        cardEntry: true,
+      });
+    }else{
+      setFormData({
+        ...formData,
+        cardEntry: false,
+      });
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -268,12 +285,15 @@ function PaymentForm() {
             <Col>
               <div className="mx-auto text-center">
                 <img className="mb-3" src="logo-dark.png" alt="GrandCo" />
+                <img className="mb-3" src="dabadu-logo.svg" alt="Dabadu" style={{marginLeft: '10px', width: '180px'}} />
                 <h2 className="mb-3">GrandCo Payment V2</h2>
+                <p class="h5">Dabadu</p>
               </div>
               
               <Form onSubmit={handleSubmit}>
                 {!formData.refund ? (
                   <>
+                  <p class="h5">Transaction</p>
                     <Form.Group className="mb-3">
                       <Form.Label>Amount</Form.Label>
                       <Form.Control
@@ -286,7 +306,7 @@ function PaymentForm() {
                         required
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    {/* <Form.Group className="mb-3">
                       <Form.Check
                         type="switch"
                         name="cardEntry"
@@ -295,10 +315,45 @@ function PaymentForm() {
                         checked={formData.cardEntry}
                         onChange={handleChange}
                       />
-                    </Form.Group>{" "}
+                    </Form.Group> */}
+                    {" "}
+
+                    <div className="mb-3">
+                      <div className="mb-1">
+                        <input
+                          className="form-check-input mr-2"
+                          type="radio"
+                          id="radioOption1"
+                          name="radioGroup"
+                          value="option1"
+                          checked={selectedOption === 'option1'}
+                          onChange={handleChangeOption}
+                        />
+                        <label className="form-check-label" htmlFor="radioOption1">
+                          &emsp;Card present
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          id="radioOption2"
+                          name="radioGroup"
+                          value="option2"
+                          checked={selectedOption === 'option2'}
+                          onChange={handleChangeOption}
+                        />
+                        <label className="form-check-label" htmlFor="radioOption2">
+                        &emsp;Card not present
+                        </label>
+                      </div>
+                    </div>
+
+
                   </>
                 ) : (
                   <>
+                  <p class="h5">Refund</p>
                     <Form.Group className="mb-3">
                       <Form.Label>Transaction Id</Form.Label>
                       <Form.Control
@@ -324,7 +379,7 @@ function PaymentForm() {
                   </>
                 )}
 
-                {!formData.cardEntry && (
+                {/* {!formData.cardEntry && (
                   <Form.Group className="mb-3">
                     <Form.Check
                       type="switch"
@@ -335,7 +390,7 @@ function PaymentForm() {
                       onChange={handleChange}
                     />
                   </Form.Group>
-                )}
+                )} */}
 
                 {/* <Form.Group className="mb-3">
                   <Form.Label>Card Type</Form.Label>
@@ -389,6 +444,19 @@ function PaymentForm() {
                   </Button>
                 ) : null}
               </Form>
+
+
+              <hr/>
+              <Form.Group className="mb-3">
+                    <Form.Check
+                      type="switch"
+                      name="refund"
+                      label="Refund"
+                      // disabled={formData.cardEntry}
+                      checked={formData.refund}
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
               {chanId ? (
                 <>
                   <Button
