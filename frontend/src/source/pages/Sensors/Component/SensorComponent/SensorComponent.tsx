@@ -54,7 +54,7 @@ const SensorComponent = ({ params }: any) => {
 
     const [page, setPage] = useState(1);
     const PAGE_SIZES = [5, 10, 20];
-    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [pageSize, setPageSize] = useState(PAGE_SIZES[2]);
     const [initialRecords, setInitialRecords] = useState(RowData);
     const [recordsData, setRecordsData] = useState(initialRecords);
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({ columnAccessor: "id", direction: 'asc' });
@@ -139,6 +139,16 @@ const SensorComponent = ({ params }: any) => {
     useEffect(() => {
         setCurrentAlerts(Alerts);
     }, [Alerts])
+
+    useEffect(() => {
+        setPage(1);
+    }, [pageSize]);
+
+    useEffect(() => {
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize;
+        setRecordsData([...initialRecords.slice(from, to)]);
+    }, [page, pageSize, initialRecords]);
 
     return (
         <>
