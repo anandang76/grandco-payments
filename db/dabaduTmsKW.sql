@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 20, 2024 at 11:28 AM
--- Server version: 8.0.35-0ubuntu0.22.04.1
+-- Generation Time: Sep 12, 2024 at 11:27 AM
+-- Server version: 8.0.36-0ubuntu0.22.04.1
 -- PHP Version: 8.1.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `tmsKW`
+-- Database: `dabaduTmsKW`
 --
 
 -- --------------------------------------------------------
@@ -48,6 +48,7 @@ CREATE TABLE `alertCrons` (
   `msg` varchar(128) DEFAULT NULL,
   `severity` varchar(64) DEFAULT NULL,
   `status` int DEFAULT NULL,
+  `userClearStatus` int DEFAULT NULL,
   `emailSent` tinyint(1) DEFAULT NULL,
   `textMessageSent` tinyint(1) DEFAULT NULL,
   `notificationShow` int DEFAULT NULL,
@@ -73,11 +74,56 @@ CREATE TABLE `alertCrons` (
 
 CREATE TABLE `aqiZoneInfo` (
   `id` int NOT NULL,
+  `locationID` int DEFAULT NULL,
+  `branchID` int DEFAULT NULL,
+  `facilityID` int DEFAULT NULL,
+  `buildingID` int DEFAULT NULL,
+  `floorID` int DEFAULT NULL,
   `zoneID` int DEFAULT NULL,
-  `aqiValue` decimal(8,3) DEFAULT NULL,
-  `aqiInfo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `aqiValue` int DEFAULT NULL,
+  `aqiInfo` text,
   `collectedTime` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cronExceptions`
+--
+
+CREATE TABLE `cronExceptions` (
+  `id` int NOT NULL,
+  `jsonData` text,
+  `exceptionInfo` text,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceDebugDataMode`
+--
+
+CREATE TABLE `deviceDebugDataMode` (
+  `id` int NOT NULL,
+  `deviceID` int NOT NULL,
+  `data` text NOT NULL,
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceEventLogData`
+--
+
+CREATE TABLE `deviceEventLogData` (
+  `id` int NOT NULL,
+  `deviceID` int NOT NULL,
+  `logPath` text NOT NULL,
+  `status` text,
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -87,9 +133,9 @@ CREATE TABLE `aqiZoneInfo` (
 
 CREATE TABLE `deviceIncomingData` (
   `id` int NOT NULL,
-  `data` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `data` varchar(2048) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -99,9 +145,9 @@ CREATE TABLE `deviceIncomingData` (
 
 CREATE TABLE `deviceIncomingDataBumpTest` (
   `id` int NOT NULL,
-  `data` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `data` varchar(2048) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -111,9 +157,9 @@ CREATE TABLE `deviceIncomingDataBumpTest` (
 
 CREATE TABLE `deviceIncomingDataDebug` (
   `id` int NOT NULL,
-  `data` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `data` varchar(2048) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -128,9 +174,9 @@ CREATE TABLE `deviceSensorData_0_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -145,9 +191,9 @@ CREATE TABLE `deviceSensorData_0_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -162,9 +208,9 @@ CREATE TABLE `deviceSensorData_0_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -179,9 +225,9 @@ CREATE TABLE `deviceSensorData_0_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -196,9 +242,9 @@ CREATE TABLE `deviceSensorData_0_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -213,9 +259,26 @@ CREATE TABLE `deviceSensorData_0_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_0_1440`
+--
+
+CREATE TABLE `deviceSensorData_0_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -230,9 +293,9 @@ CREATE TABLE `deviceSensorData_1_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -247,9 +310,9 @@ CREATE TABLE `deviceSensorData_1_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -264,9 +327,9 @@ CREATE TABLE `deviceSensorData_1_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -281,9 +344,9 @@ CREATE TABLE `deviceSensorData_1_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -298,9 +361,9 @@ CREATE TABLE `deviceSensorData_1_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -315,9 +378,26 @@ CREATE TABLE `deviceSensorData_1_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_1_1440`
+--
+
+CREATE TABLE `deviceSensorData_1_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -332,9 +412,9 @@ CREATE TABLE `deviceSensorData_2_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -349,9 +429,9 @@ CREATE TABLE `deviceSensorData_2_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -366,9 +446,9 @@ CREATE TABLE `deviceSensorData_2_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -383,9 +463,9 @@ CREATE TABLE `deviceSensorData_2_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -400,9 +480,9 @@ CREATE TABLE `deviceSensorData_2_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -417,9 +497,26 @@ CREATE TABLE `deviceSensorData_2_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_2_1440`
+--
+
+CREATE TABLE `deviceSensorData_2_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -434,9 +531,9 @@ CREATE TABLE `deviceSensorData_3_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -451,9 +548,9 @@ CREATE TABLE `deviceSensorData_3_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -468,9 +565,9 @@ CREATE TABLE `deviceSensorData_3_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -485,9 +582,9 @@ CREATE TABLE `deviceSensorData_3_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -502,9 +599,9 @@ CREATE TABLE `deviceSensorData_3_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -519,9 +616,26 @@ CREATE TABLE `deviceSensorData_3_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_3_1440`
+--
+
+CREATE TABLE `deviceSensorData_3_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -536,9 +650,9 @@ CREATE TABLE `deviceSensorData_4_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -553,9 +667,9 @@ CREATE TABLE `deviceSensorData_4_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -570,9 +684,9 @@ CREATE TABLE `deviceSensorData_4_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -587,9 +701,9 @@ CREATE TABLE `deviceSensorData_4_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -604,9 +718,9 @@ CREATE TABLE `deviceSensorData_4_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -621,9 +735,26 @@ CREATE TABLE `deviceSensorData_4_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_4_1440`
+--
+
+CREATE TABLE `deviceSensorData_4_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -638,9 +769,9 @@ CREATE TABLE `deviceSensorData_5_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -655,9 +786,9 @@ CREATE TABLE `deviceSensorData_5_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -672,9 +803,9 @@ CREATE TABLE `deviceSensorData_5_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -689,9 +820,9 @@ CREATE TABLE `deviceSensorData_5_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -706,9 +837,9 @@ CREATE TABLE `deviceSensorData_5_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -723,9 +854,26 @@ CREATE TABLE `deviceSensorData_5_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_5_1440`
+--
+
+CREATE TABLE `deviceSensorData_5_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -740,9 +888,9 @@ CREATE TABLE `deviceSensorData_6_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -757,9 +905,9 @@ CREATE TABLE `deviceSensorData_6_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -774,9 +922,9 @@ CREATE TABLE `deviceSensorData_6_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -791,9 +939,9 @@ CREATE TABLE `deviceSensorData_6_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -808,9 +956,9 @@ CREATE TABLE `deviceSensorData_6_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -825,9 +973,26 @@ CREATE TABLE `deviceSensorData_6_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_6_1440`
+--
+
+CREATE TABLE `deviceSensorData_6_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -842,9 +1007,9 @@ CREATE TABLE `deviceSensorData_7_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -859,9 +1024,9 @@ CREATE TABLE `deviceSensorData_7_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -876,9 +1041,9 @@ CREATE TABLE `deviceSensorData_7_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -893,9 +1058,9 @@ CREATE TABLE `deviceSensorData_7_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -910,9 +1075,9 @@ CREATE TABLE `deviceSensorData_7_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -927,9 +1092,26 @@ CREATE TABLE `deviceSensorData_7_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_7_1440`
+--
+
+CREATE TABLE `deviceSensorData_7_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -944,9 +1126,9 @@ CREATE TABLE `deviceSensorData_8_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -961,9 +1143,9 @@ CREATE TABLE `deviceSensorData_8_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -978,9 +1160,9 @@ CREATE TABLE `deviceSensorData_8_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -995,9 +1177,9 @@ CREATE TABLE `deviceSensorData_8_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1012,9 +1194,9 @@ CREATE TABLE `deviceSensorData_8_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1029,9 +1211,26 @@ CREATE TABLE `deviceSensorData_8_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_8_1440`
+--
+
+CREATE TABLE `deviceSensorData_8_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1046,9 +1245,9 @@ CREATE TABLE `deviceSensorData_9_1` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1063,9 +1262,9 @@ CREATE TABLE `deviceSensorData_9_5` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1080,9 +1279,9 @@ CREATE TABLE `deviceSensorData_9_10` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1097,9 +1296,9 @@ CREATE TABLE `deviceSensorData_9_15` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1114,9 +1313,9 @@ CREATE TABLE `deviceSensorData_9_30` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1131,9 +1330,26 @@ CREATE TABLE `deviceSensorData_9_60` (
   `minScaledVal` double(11,3) DEFAULT NULL,
   `maxScaledVal` double(11,3) DEFAULT NULL,
   `avgScaledVal` double(11,3) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceSensorData_9_1440`
+--
+
+CREATE TABLE `deviceSensorData_9_1440` (
+  `id` int NOT NULL,
+  `deviceID` int DEFAULT NULL,
+  `sensorID` int DEFAULT NULL,
+  `minScaledVal` double(11,3) DEFAULT NULL,
+  `maxScaledVal` double(11,3) DEFAULT NULL,
+  `avgScaledVal` double(11,3) DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
+  `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1143,18 +1359,11 @@ CREATE TABLE `deviceSensorData_9_60` (
 
 CREATE TABLE `dynamicValues` (
   `id` int NOT NULL,
-  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `type` varchar(64) DEFAULT NULL,
+  `data` text,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modifiedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `dynamicValues`
---
-
-INSERT INTO `dynamicValues` (`id`, `type`, `data`, `createdAt`, `modifiedAt`) VALUES
-(1, 'SENSOR_DYNAMIC_DATA', '', '2023-12-27 14:14:00', '2024-02-19 07:48:05');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1166,13 +1375,12 @@ CREATE TABLE `sensorSegregatedValues` (
   `id` int NOT NULL,
   `deviceID` int DEFAULT NULL,
   `sensorID` int DEFAULT NULL,
-  `sensorTag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `sensorValue` decimal(11,5) DEFAULT NULL,
   `scaledValue` decimal(11,5) DEFAULT NULL,
-  `info` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `info` varchar(16) DEFAULT NULL,
   `collectedTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1184,11 +1392,11 @@ CREATE TABLE `twaInfo` (
   `id` int NOT NULL,
   `sensorID` int DEFAULT NULL,
   `deviceID` int DEFAULT NULL,
-  `shiftID` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `shiftID` varchar(16) DEFAULT NULL,
   `currentValue` decimal(8,4) DEFAULT NULL,
-  `info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `info` text,
   `calculatedDate` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Indexes for dumped tables
@@ -1204,6 +1412,24 @@ ALTER TABLE `alertCrons`
 -- Indexes for table `aqiZoneInfo`
 --
 ALTER TABLE `aqiZoneInfo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cronExceptions`
+--
+ALTER TABLE `cronExceptions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deviceDebugDataMode`
+--
+ALTER TABLE `deviceDebugDataMode`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deviceEventLogData`
+--
+ALTER TABLE `deviceEventLogData`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1261,6 +1487,12 @@ ALTER TABLE `deviceSensorData_0_60`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `deviceSensorData_0_1440`
+--
+ALTER TABLE `deviceSensorData_0_1440`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `deviceSensorData_1_1`
 --
 ALTER TABLE `deviceSensorData_1_1`
@@ -1294,6 +1526,12 @@ ALTER TABLE `deviceSensorData_1_30`
 -- Indexes for table `deviceSensorData_1_60`
 --
 ALTER TABLE `deviceSensorData_1_60`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deviceSensorData_1_1440`
+--
+ALTER TABLE `deviceSensorData_1_1440`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1333,6 +1571,12 @@ ALTER TABLE `deviceSensorData_2_60`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `deviceSensorData_2_1440`
+--
+ALTER TABLE `deviceSensorData_2_1440`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `deviceSensorData_3_1`
 --
 ALTER TABLE `deviceSensorData_3_1`
@@ -1366,6 +1610,12 @@ ALTER TABLE `deviceSensorData_3_30`
 -- Indexes for table `deviceSensorData_3_60`
 --
 ALTER TABLE `deviceSensorData_3_60`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deviceSensorData_3_1440`
+--
+ALTER TABLE `deviceSensorData_3_1440`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1405,6 +1655,12 @@ ALTER TABLE `deviceSensorData_4_60`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `deviceSensorData_4_1440`
+--
+ALTER TABLE `deviceSensorData_4_1440`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `deviceSensorData_5_1`
 --
 ALTER TABLE `deviceSensorData_5_1`
@@ -1438,6 +1694,12 @@ ALTER TABLE `deviceSensorData_5_30`
 -- Indexes for table `deviceSensorData_5_60`
 --
 ALTER TABLE `deviceSensorData_5_60`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deviceSensorData_5_1440`
+--
+ALTER TABLE `deviceSensorData_5_1440`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1477,6 +1739,12 @@ ALTER TABLE `deviceSensorData_6_60`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `deviceSensorData_6_1440`
+--
+ALTER TABLE `deviceSensorData_6_1440`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `deviceSensorData_7_1`
 --
 ALTER TABLE `deviceSensorData_7_1`
@@ -1510,6 +1778,12 @@ ALTER TABLE `deviceSensorData_7_30`
 -- Indexes for table `deviceSensorData_7_60`
 --
 ALTER TABLE `deviceSensorData_7_60`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deviceSensorData_7_1440`
+--
+ALTER TABLE `deviceSensorData_7_1440`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1549,6 +1823,12 @@ ALTER TABLE `deviceSensorData_8_60`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `deviceSensorData_8_1440`
+--
+ALTER TABLE `deviceSensorData_8_1440`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `deviceSensorData_9_1`
 --
 ALTER TABLE `deviceSensorData_9_1`
@@ -1585,6 +1865,12 @@ ALTER TABLE `deviceSensorData_9_60`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `deviceSensorData_9_1440`
+--
+ALTER TABLE `deviceSensorData_9_1440`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `dynamicValues`
 --
 ALTER TABLE `dynamicValues`
@@ -1616,6 +1902,24 @@ ALTER TABLE `alertCrons`
 -- AUTO_INCREMENT for table `aqiZoneInfo`
 --
 ALTER TABLE `aqiZoneInfo`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cronExceptions`
+--
+ALTER TABLE `cronExceptions`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `deviceDebugDataMode`
+--
+ALTER TABLE `deviceDebugDataMode`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `deviceEventLogData`
+--
+ALTER TABLE `deviceEventLogData`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -1673,6 +1977,12 @@ ALTER TABLE `deviceSensorData_0_60`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `deviceSensorData_0_1440`
+--
+ALTER TABLE `deviceSensorData_0_1440`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `deviceSensorData_1_1`
 --
 ALTER TABLE `deviceSensorData_1_1`
@@ -1706,6 +2016,12 @@ ALTER TABLE `deviceSensorData_1_30`
 -- AUTO_INCREMENT for table `deviceSensorData_1_60`
 --
 ALTER TABLE `deviceSensorData_1_60`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `deviceSensorData_1_1440`
+--
+ALTER TABLE `deviceSensorData_1_1440`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -1745,6 +2061,12 @@ ALTER TABLE `deviceSensorData_2_60`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `deviceSensorData_2_1440`
+--
+ALTER TABLE `deviceSensorData_2_1440`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `deviceSensorData_3_1`
 --
 ALTER TABLE `deviceSensorData_3_1`
@@ -1778,6 +2100,12 @@ ALTER TABLE `deviceSensorData_3_30`
 -- AUTO_INCREMENT for table `deviceSensorData_3_60`
 --
 ALTER TABLE `deviceSensorData_3_60`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `deviceSensorData_3_1440`
+--
+ALTER TABLE `deviceSensorData_3_1440`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -1817,6 +2145,12 @@ ALTER TABLE `deviceSensorData_4_60`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `deviceSensorData_4_1440`
+--
+ALTER TABLE `deviceSensorData_4_1440`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `deviceSensorData_5_1`
 --
 ALTER TABLE `deviceSensorData_5_1`
@@ -1850,6 +2184,12 @@ ALTER TABLE `deviceSensorData_5_30`
 -- AUTO_INCREMENT for table `deviceSensorData_5_60`
 --
 ALTER TABLE `deviceSensorData_5_60`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `deviceSensorData_5_1440`
+--
+ALTER TABLE `deviceSensorData_5_1440`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -1889,6 +2229,12 @@ ALTER TABLE `deviceSensorData_6_60`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `deviceSensorData_6_1440`
+--
+ALTER TABLE `deviceSensorData_6_1440`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `deviceSensorData_7_1`
 --
 ALTER TABLE `deviceSensorData_7_1`
@@ -1922,6 +2268,12 @@ ALTER TABLE `deviceSensorData_7_30`
 -- AUTO_INCREMENT for table `deviceSensorData_7_60`
 --
 ALTER TABLE `deviceSensorData_7_60`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `deviceSensorData_7_1440`
+--
+ALTER TABLE `deviceSensorData_7_1440`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -1961,6 +2313,12 @@ ALTER TABLE `deviceSensorData_8_60`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `deviceSensorData_8_1440`
+--
+ALTER TABLE `deviceSensorData_8_1440`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `deviceSensorData_9_1`
 --
 ALTER TABLE `deviceSensorData_9_1`
@@ -1997,10 +2355,16 @@ ALTER TABLE `deviceSensorData_9_60`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `deviceSensorData_9_1440`
+--
+ALTER TABLE `deviceSensorData_9_1440`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `dynamicValues`
 --
 ALTER TABLE `dynamicValues`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sensorSegregatedValues`
