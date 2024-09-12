@@ -75,8 +75,8 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `companyName`, `companyCode`, `email`, `website`, `imageInfo`, `companyInfo`, `contactInfo`, `createdAt`, `updatedAt`) VALUES
-(1, 'Ai-Dea Labs Pvt Ltd', 'AI', 'aqms@aidealabs.com', 'https://aidealabs.com', '{\"logo\":\"company/AI/aidealabsLogo.png\", \"loginPageImage\":\"company/AI/aideaLabsImage.jpg\", \"companyName\": \"A-idea Labs India Pvt Ltd\"}', NULL, NULL, '2023-12-14 03:47:49', '2023-12-28 09:21:56'),
-(2, 'Kewaunee Labway India Pvt Ltd', 'KW', 'aqmx@aidealabs.com', 'https://www.kewaunee.in/', '{\"logo\":\"company/KW/logo.jpg\", \"loginPageImage\":\"company/KW/image.png\", \"companyName\": \"Kewaunee Labway India Pvt Ltd\"}', NULL, NULL, '2023-12-14 03:48:36', '2023-12-28 09:21:56');
+(1, 'GrandCo', 'GC', 'admin@grandco.ca', 'https://grandco.ca', '{\"logo\":\"company/GC/GrandCo.png\", \"loginPageImage\":\"company/GC/GrandCo.jpg\", \"companyName\": \"A-idea Labs India Pvt Ltd\"}', NULL, NULL, '2023-12-14 03:47:49', '2023-12-28 09:21:56'),
+(2, 'Grandco Merchant Services', 'GMS', 'info@grandco.ca', 'https://www.https://grandcopayments.com/', '{\"logo\":\"company/GMS/logo.jpg\", \"loginPageImage\":\"company/GMS/image.png\", \"companyName\": \"Grandco Merchant Services\"}', NULL, NULL, '2023-12-14 03:48:36', '2023-12-28 09:21:56');
 
 --
 -- Indexes for dumped tables
