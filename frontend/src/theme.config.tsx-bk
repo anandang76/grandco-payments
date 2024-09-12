@@ -11,7 +11,7 @@ const liveThemeConfig = {
     navbar: 'navbar-sticky', // navbar-sticky, navbar-floating, navbar-static
     semidark: false,
     //Server details
-    apiURL: 'https://aqms.aisrv.in/backend/api/',
+    apiURL: 'https://api.grandcopayments.com/backend/api/',
     auth2FA: false,
 };
 
