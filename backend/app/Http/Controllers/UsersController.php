@@ -16,7 +16,7 @@ class UsersController extends Controller
 {
     protected $jwtToken;
     protected $logController;
-    protected $aqmsTableConnection;
+    protected $dabaduTableConnection;
     protected $currentUser;
     protected $configTableEmailTextInfoConnection;
 
@@ -24,7 +24,7 @@ class UsersController extends Controller
     {
         $this->jwtToken = JWTAuth::parseToken()->getPayload();
         $this->logController = $logController;
-        $this->aqmsTableConnection = DB::table('users');
+        $this->dabaduTableConnection = DB::table('users');
         $this->currentUser = DB::table('users')->where('id', $this->jwtToken['id'])->first();
         $this->configTableEmailTextInfoConnection = DB::connection('mysqlConfig')->table('emailTextInfo');
     }
@@ -34,7 +34,7 @@ class UsersController extends Controller
         if($request->isMethod('POST')){
             try {
                 $user = $this->currentUser;
-                $users = $this->aqmsTableConnection->select('id', 'employeeID', 'name', 'email', 'mobileNumber', 'userRole', 'locationID', 'branchID', 'facilityID', 'buildingID', 'floorID', 'zoneID', 'emailNotification', 'smsNotification');
+                $users = $this->dabaduTableConnection->select('id', 'employeeID', 'name', 'email', 'mobileNumber', 'userRole', 'locationID', 'branchID', 'facilityID', 'buildingID', 'floorID', 'zoneID', 'emailNotification', 'smsNotification');
 
                 $userLocationFilters = array_filter([
                     'locationID' => $user->locationID,
@@ -82,7 +82,7 @@ class UsersController extends Controller
     {
         if($request->isMethod('POST')){
             try {
-                $user = $this->aqmsTableConnection->where('id', $id)->first();
+                $user = $this->dabaduTableConnection->where('id', $id)->first();
 
                 $result = new Response([
                     "status" => "success",
@@ -151,7 +151,7 @@ class UsersController extends Controller
                             }
                         }
 
-                        $create = $this->aqmsTableConnection->insert($data);
+                        $create = $this->dabaduTableConnection->insert($data);
 
                         $url = env('APPLICATION_URL');
                         $data = [
@@ -238,7 +238,7 @@ class UsersController extends Controller
             } else {
                 try {
                     $data = $request->post();
-                    $row = $this->aqmsTableConnection->where('id', $id);
+                    $row = $this->dabaduTableConnection->where('id', $id);
 
                     // Record before updating
                     $old = $row->first();
@@ -317,7 +317,7 @@ class UsersController extends Controller
     {
         if($request->isMethod('POST')){
             try {
-                $row = $this->aqmsTableConnection->where("id", $id);
+                $row = $this->dabaduTableConnection->where("id", $id);
 
                 $old = $row->first();
                 $delete = $row->delete();

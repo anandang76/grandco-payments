@@ -2,11 +2,11 @@ backend =>  Complete backend code on laravel PHP
 frontend => react JS
 
 db =>  db basic configurations for 4 databases
-	aqms => main database user login functions
-	aqmsConfigGC => Config database -> replace GC with company code  for eg: DB for Dabudu,  GC for GrandCo etc., 
-	aqmsTmsGC=> Transaction management database -> replace GC with company code
-	aqmsReportGC=> Reporting database -> replace GC with company code
-dbuser => create user with aqms with all grant privilige for above 4 databases
+	dabadu => main database user login functions
+	dabaduConfigDU => Config database -> replace DU with company code  for eg: DU for Dabudu etc, 
+	dabaduTmsDU=> Transaction management database -> replace DU with company code
+	dabaduReportDU=> Reporting database -> replace DU with company code
+dbuser => create user with dabadu with all grant privilige for above 4 databases
 dbdump => DB basic dump file for all users.  Default user sysadmin added to the table for login. 
 		aqmx@grandco.ca -> 123456 =>  login and change the password to desired password. 
 
