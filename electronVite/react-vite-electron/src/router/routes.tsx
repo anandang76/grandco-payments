@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 const Index = lazy(() => import('../pages/Index'));
+const Error = lazy(() => import('../components/Error'));
 
 const routes = [
     // dashboard
@@ -10,7 +11,7 @@ const routes = [
     },
     {
         path: '*', // Matches all undefined routes
-        element: <Index />, // A NotFound component to handle 404s
+        element: <Error />, // A NotFound component to handle 404s
     }
 
 ];

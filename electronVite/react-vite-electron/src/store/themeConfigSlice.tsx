@@ -93,7 +93,7 @@ const themeConfigSlice = createSlice({
         },
         toggleMenu(state, { payload }) {
             payload = payload || state.menu; // vertical, collapsible-vertical, horizontal
-            state.sidebar = false; // reset sidebar state
+            state.sidebar = true; // reset sidebar state
             localStorage.setItem('menu', payload);
             state.menu = payload;
         },
@@ -134,7 +134,7 @@ const themeConfigSlice = createSlice({
         },
 
         setPageTitle(state, { payload }) {
-            document.title = `${payload} | VRISTO - Multipurpose Tailwind Dashboard Template`;
+            document.title = `${payload} | - GrandoCo Payment`;
         },
     },
 });
