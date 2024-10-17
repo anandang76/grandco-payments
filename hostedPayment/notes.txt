@@ -1,0 +1,2 @@
+https://developer.elavon.com/products/hosted-payment-page/v1/overview
+https://developer.elavon.com/products/hosted-payment-page/v1/api-reference#tag/Request-Session-Token/operation/session-token
