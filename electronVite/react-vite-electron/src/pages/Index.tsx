@@ -2,7 +2,7 @@ const Index = () => {
 
     return (
         <div>
-            <h1>starter page</h1>
+            <h1>starter page - Test 12</h1>
         </div>
     );
 };

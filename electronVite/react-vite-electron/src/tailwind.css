@@ -655,3 +655,7 @@
 pre.hljs {
     @apply p-6 rounded-md overflow-x-auto !bg-[#191e3a];
 }
+
+.sidebar-logo{
+    width: 100px;
+}
