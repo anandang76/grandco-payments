@@ -28,7 +28,7 @@ const localThemeConfig = {
     semidark: false,
     //Server details
     apiURL: 'http://127.0.0.1:8000/api/',
-    reportsURL: 'http://localhost/aqmsv3/reportsAPI/',
+    reportsURL: 'http://localhost/dabaduv3/reportsAPI/',
     auth2FA: true,
 };
 
