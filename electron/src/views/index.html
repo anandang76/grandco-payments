@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <!-- <link href="../assets/tailwind.css" rel="stylesheet"> -->
+  <link href="../assets/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="flex">
+    <!-- Sidebar -->
+    <div class="w-64 h-screen bg-gray-800 text-white">
+      <div class="p-4 text-lg font-bold">Admin Panel</div>
+      <nav class="mt-5">
+        <ul>
+          <li class="p-3 hover:bg-gray-700"><a href="#">Dashboard</a></li>
+          <li class="p-3 hover:bg-gray-700"><a href="#">Users</a></li>
+          <li class="p-3 hover:bg-gray-700"><a href="#">Settings</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+      <header class="text-xl font-semibold mb-6">Dashboard</header>
+      <div class="grid grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-lg font-semibold">Total Users</h2>
+          <p class="mt-4 text-gray-600">1,234</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-lg font-semibold">Active Users</h2>
+          <p class="mt-4 text-gray-600">567</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-lg font-semibold">Total Sales</h2>
+          <p class="mt-4 text-gray-600">$12,345</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
