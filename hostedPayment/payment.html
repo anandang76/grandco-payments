@@ -1,86 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Page</title>
-    <script src="./assets/script/tailwind.css.js"></script>
-    <script src="./assets//script/jquery.min.js"></script>
-    <script src="./assets/script/tailwind.config.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Page</title>
+  <link rel="icon" href="./assets/img/favicon.ico" />
+  <script src="./assets/script/tailwind.css.js"></script>
+  <script src="./assets//script/jquery.min.js"></script>
+  <script src="./assets/script/tailwind.config.js"></script>
 </head>
 <body>
-    <header>
-        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-            <div class="flex flex-wrap justify-center items-center mx-auto max-w-screen-xl">
-                <a href="javascrip:void(0)" class="flex items-center pointer-events-none">
-                    <img src="./assets/img/logo-dark.png" class="mr-3 h-6 sm:h-9" alt="GRANDCO Logo" />
-                    <!-- <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">GRANDCO</span> -->
-                </a>
-            </div>
-        </nav>
-    </header>
-    <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-        <form action="#" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-          <div class="flex justify-center items-center">
-            <div class="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
-              <div class="flow-root">
-                <div class="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
-                  <dl class="flex items-center justify-between gap-4 py-3">
-                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
-                    <dd class="text-base font-medium text-gray-900 dark:text-white">$1.00</dd>
-                  </dl>
-      
-                  <dl class="flex items-center justify-between gap-4 py-3">
-                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
-                    <dd class="text-base font-medium text-green-500">$0.00</dd>
-                  </dl>
-      
-                  <dl class="flex items-center justify-between gap-4 py-3">
-                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
-                    <dd class="text-base font-medium text-gray-900 dark:text-white">$1.00</dd>
-                  </dl>
-      
-                  <dl class="flex items-center justify-between gap-4 py-3">
-                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
-                    <dd class="text-base font-medium text-gray-900 dark:text-white">$1.00</dd>
-                  </dl>
-      
-                  <dl class="flex items-center justify-between gap-4 py-3">
-                    <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                    <input type="text" value="3.00" class="text-base font-bold text-gray-900 dark:text-white w-auto text-right" id="ssl_amount" />
-                  </dl>
+  <section class="flex flex-col justify-center antialiased bg-gray-200 text-gray-600 min-h-screen p-4">
+    <div class="h-full">
+      <div class="max-w-[360px] mx-auto">
+        <div class="bg-white shadow-lg rounded-lg mt-9">
+          <header class="text-center px-5 pb-5">
+            <img src="./assets/img/favicon.ico" class="inline-flex -mt-9 w-[72px] h-[72px] fill-current rounded-full border-4 border-white box-content shadow mb-3" alt="GRANDCO Logo" />
+            <h3 class="text-xl font-bold text-gray-900 mb-1">GRANDCO</h3>
+          </header>
+          <div class="bg-gray-100 text-center px-5 py-6">
+            <form class="space-y-3">
+              <div class="flex shadow-sm rounded">
+                <div class="flex-grow">
+                  <input name="ssl_amount" class="text-sm text-gray-800 bg-white rounded-l leading-5 py-2 px-3 placeholder-gray-400 w-full border border-transparent focus:border-indigo-300 focus:ring-0" id="ssl_amount" type="text" placeholder="Total Amount" aria-label="Total Amount" />
                 </div>
               </div>
-      
-              <div class="space-y-3">
-                <button type="button" onclick="initiateHPP()" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Payment</button>
-      
-                <!-- <p class="text-sm font-normal text-gray-500 dark:text-gray-400">One or more items in your cart require an account. <a href="#" title="" class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Sign in or create an account now.</a>.</p> -->
-              </div>
-            </div>
+              <button type="button" onclick="initiateHPP()" class="font-semibold text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow transition duration-150 ease-in-out w-full bg-indigo-500 hover:bg-indigo-600 text-white focus:outline-none focus-visible:ring-2">Pay Now</button>
+            </form>
           </div>
-        </form>
-        <form id="myForm" action="https://api.demo.convergepay.com/hosted-payments/" method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" id="ssl_txn_auth_token" value="" />
-        </form>
-    </section>
-    <script>
-        function initiateHPP () {
-          var tokenRequest = {
-            ssl_amount: document.getElementById('ssl_amount').value
-          };
-          $.post("payment.php", tokenRequest, function( data ) {
-            transactionToken = data;
-            console.log(transactionToken);
-            document.getElementById('ssl_txn_auth_token').value = transactionToken;
-            setTimeout(() => {
-                console.log(document.getElementById('ssl_txn_auth_token').value );
-                document.getElementById('myForm').submit();
-            }, 100);
-          });
-    
-          return false;
-        }
-      </script>
+        </div>
+      </div>
+    </div>
+    <form id="myForm" action="https://api.demo.convergepay.com/hosted-payments/" method="POST" enctype="application/x-www-form-urlencoded">
+      <input type="hidden" id="ssl_txn_auth_token" value="" />
+    </form>
+  </section>
+  <script>
+    function initiateHPP () {
+      var tokenRequest = {
+        ssl_amount: document.getElementById('ssl_amount').value
+      };
+      $.post("payment.php", tokenRequest, function( data ) {
+        transactionToken = data;
+        console.log(transactionToken);
+        document.getElementById('ssl_txn_auth_token').value = transactionToken;
+        setTimeout(() => {
+            console.log(document.getElementById('ssl_txn_auth_token').value );
+            document.getElementById('myForm').submit();
+        }, 100);
+      });
+
+      return false;
+    }
+  </script>
 </body>
 </html>
