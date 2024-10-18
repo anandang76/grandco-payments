@@ -6,6 +6,7 @@ import { toggleRTL, toggleTheme,toggleSidebar } from '../../store/themeConfigSli
 import { useTranslation } from 'react-i18next';
 // import i18next from 'i18next';
 import Dropdown from '../Dropdown';
+import { CustomToast } from '../../helper/CustomToast';
 
 const Header = () => {
     const location = useLocation();
@@ -74,24 +75,24 @@ const Header = () => {
     };
 
     const [notifications, setNotifications] = useState([
-        {
-            id: 1,
-            profile: 'user-profile.jpeg',
-            message: '<strong class="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
-            time: '45 min ago',
-        },
-        {
-            id: 2,
-            profile: 'profile-34.jpeg',
-            message: '<strong class="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
-            time: '9h Ago',
-        },
-        {
-            id: 3,
-            profile: 'profile-16.jpeg',
-            message: '<strong class="text-sm mr-1">Anna Morgan</strong>Upload a file',
-            time: '9h Ago',
-        },
+        // {
+        //     id: 1,
+        //     profile: 'user-profile.jpeg',
+        //     message: '<strong class="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
+        //     time: '45 min ago',
+        // },
+        // {
+        //     id: 2,
+        //     profile: 'profile-34.jpeg',
+        //     message: '<strong class="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
+        //     time: '9h Ago',
+        // },
+        // {
+        //     id: 3,
+        //     profile: 'profile-16.jpeg',
+        //     message: '<strong class="text-sm mr-1">Anna Morgan</strong>Upload a file',
+        //     time: '9h Ago',
+        // },
     ]);
 
     const removeNotification = (value: number) => {
@@ -114,6 +115,14 @@ const Header = () => {
     const  t = (string:any) => {
         return <p>{string}</p>;
     };
+
+    const underConstruction = () =>{
+        console.log('underConstruction');
+        CustomToast("Under construction", "success");
+    }
+
+    const [currentUser, setCurrentUser] = useState(localStorage.getItem('customer_id'));
+
 
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
@@ -545,17 +554,17 @@ const Header = () => {
                                             <img className="rounded-md w-10 h-10 object-cover" src="./assets/images/user-profile.jpeg" alt="userProfile" />
                                             <div className="ltr:pl-4 rtl:pr-4 truncate">
                                                 <h4 className="text-base">
-                                                    John Doe
+                                                    {currentUser}
                                                     <span className="text-xs bg-success-light rounded text-success px-1 ltr:ml-2 rtl:ml-2">Pro</span>
                                                 </h4>
-                                                <button type="button" className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white">
+                                                {/* <button type="button" className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white">
                                                     johndoe@gmail.com
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <Link to="/users/profile" className="dark:hover:text-white">
+                                    {/* <li>
+                                        <Link to="#" onClick={underConstruction} className="dark:hover:text-white">
                                             <svg className="ltr:mr-2 rtl:ml-2 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <circle cx="12" cy="6" r="4" stroke="currentColor" strokeWidth="1.5" />
                                                 <path
@@ -567,8 +576,8 @@ const Header = () => {
                                             </svg>
                                             Profile
                                         </Link>
-                                    </li>
-                                    <li>
+                                    </li> */}
+                                    {/* <li>
                                         <Link to="/apps/mailbox" className="dark:hover:text-white">
                                             <svg className="ltr:mr-2 rtl:ml-2 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -586,9 +595,9 @@ const Header = () => {
                                             </svg>
                                             Inbox
                                         </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/auth/boxed-lockscreen" className="dark:hover:text-white">
+                                    </li> */}
+                                    {/* <li>
+                                        <Link to="#" onClick={underConstruction} className="dark:hover:text-white">
                                             <svg className="ltr:mr-2 rtl:ml-2 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"
@@ -610,9 +619,9 @@ const Header = () => {
                                             </svg>
                                             Lock Screen
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li className="border-t border-white-light dark:border-white-light/10">
-                                        <Link to="/auth/boxed-signin" className="text-danger !py-3">
+                                        <Link to="/auth/login" className="text-danger !py-3">
                                             <svg className="ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     opacity="0.5"

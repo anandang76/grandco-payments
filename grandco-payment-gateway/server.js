@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors"); // Import the cors middleware
-const port = 5000;
+const port = 5005;
 require("dotenv").config();
 const Payment = require("./backend/controller/paymentController");
 const { logger } = require("./backend/utils/logger");
