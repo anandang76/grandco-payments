@@ -12,20 +12,26 @@
 <body>
   <section class="flex flex-col justify-center antialiased bg-gray-200 text-gray-600 min-h-screen p-4">
     <div class="h-full">
-      <div class="max-w-[360px] mx-auto">
+      <div class="max-w-[480px] mx-auto">
         <div class="bg-white shadow-lg rounded-lg mt-9">
           <header class="text-center px-5 pb-5">
-            <img src="./assets/img/favicon.ico" class="inline-flex -mt-9 w-[72px] h-[72px] fill-current rounded-full border-4 border-white box-content shadow mb-3" alt="GRANDCO Logo" />
-            <h3 class="text-xl font-bold text-gray-900 mb-1">GRANDCO</h3>
+            <img src="./assets/img/favicon.ico" class="inline-flex -mt-9 w-[90px] h-[90px] fill-current rounded-full border-4 border-white box-content shadow mb-3" alt="GRANDCO Logo" />
+            <div class="flex flex-col gap-0 mb-1">
+              <h3 class="text-xl font-bold text-gray-900">GRANDCO</h3>
+              <span class="text-xs font-medium text-gray-500">MERCHANT SERVICES</span>
+            </div>
           </header>
           <div class="bg-gray-100 text-center px-5 py-6">
-            <form class="space-y-3">
+            <form class="space-y-8">
               <div class="flex shadow-sm rounded">
                 <div class="flex-grow">
                   <input name="ssl_amount" class="text-sm text-gray-800 bg-white rounded-l leading-5 py-2 px-3 placeholder-gray-400 w-full border border-transparent focus:border-indigo-300 focus:ring-0" id="ssl_amount" type="text" placeholder="Total Amount" aria-label="Total Amount" />
                 </div>
               </div>
-              <button type="button" onclick="initiateHPP()" class="font-semibold text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow transition duration-150 ease-in-out w-full bg-indigo-500 hover:bg-indigo-600 text-white focus:outline-none focus-visible:ring-2">Pay Now</button>
+              <button type="button" onclick="initiateHPP()" class="font-semibold text-sm inline-flex gap-2 items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow transition duration-150 ease-in-out w-full bg-indigo-500 hover:bg-indigo-600 text-white focus:outline-none focus-visible:ring-2">
+                <div class="w-5 h-5 rounded-full animate-spin border-4 border-solid border-white-500 border-t-transparent" style="display: none;" id="loader"></div>
+                Pay Now
+              </button>
             </form>
           </div>
         </div>
@@ -37,6 +43,7 @@
   </section>
   <script>
     function initiateHPP () {
+      $('#loader').css('display', 'block');
       var tokenRequest = {
         ssl_amount: document.getElementById('ssl_amount').value
       };
