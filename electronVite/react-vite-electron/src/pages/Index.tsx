@@ -75,7 +75,7 @@ const Index = () => {
                                             className={`rounded-none border-b-0 flex-1 ${selected ? '!border-primary text-primary !outline-none dark:!bg-[#191e3a]' : ''}
                                         ' flex items-center justify-center border-b-4 border-transparent bg-[#f6f7f8] p-7 py-3 before:inline-block hover:border-primary hover:text-primary dark:bg-transparent dark:hover:bg-[#191e3a]`}
                                         >
-                                            Transaction
+                                            Sale
                                         </button>}
                                     </Tab>
                                     <Tab as={Fragment}>
