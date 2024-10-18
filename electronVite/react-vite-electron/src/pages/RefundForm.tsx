@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { apiCall } from './../helper/client.jsx'; 
+// import { apiCall } from './../helper/client.jsx'; 
 
 export default function RefundForm({paymentId}) {
 
@@ -71,30 +71,6 @@ export default function RefundForm({paymentId}) {
         }
         let data: any = formData;
         console.log(data);
-        apiCall("/startPaymentTransaction", 'post',{
-            amount: formData.amount,
-            isManualEntry: formData.isManualEntry,
-            cardType: formData.cardType,
-            paymentId,
-            cardReaderInfo
-          })
-          .then((response) => {
-            console.log(
-              "startPaymentTransaction:",
-              JSON.stringify(response.data)
-            );
-            const chanIdData =
-              response?.data?.data?.paymentGatewayCommand?.chanId;
-            // setChanId(chanIdData);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-
-        // data.recipientType = recipientType;
-        // data.addressBook = addressBook;
-        // onSuccess(data);
-        // onClose(true);
     }
 
     // const handleSubmit1 = (e) => {
